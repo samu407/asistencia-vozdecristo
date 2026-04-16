@@ -3,27 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistencia Voz de Cristo</title>
+    <title>Check-In Voz de Cristo</title>
     <style>
-        :root { --primary: #3498db; --accent: #f1c40f; --dark: #2c3e50; }
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .card { background: white; color: var(--dark); padding: 30px; border-radius: 20px; width: 100%; max-width: 450px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { font-size: 1.8rem; color: var(--primary); margin: 0; }
-        .header p { font-size: 0.9rem; color: #7f8c8d; }
-        label { font-weight: bold; font-size: 0.9rem; display: block; margin: 15px 0 5px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 10px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--primary); outline: none; }
-        .mood-container { display: flex; justify-content: space-between; margin: 10px 0; }
-        .mood-btn { font-size: 1.5rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
-        .mood-btn:hover, input[type="radio"]:checked + span { opacity: 1; transform: scale(1.2); }
+        /* --- Reset y Fuentes --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden; /* Evita scrolls raros por el fondo */
+            position: relative;
+        }
+
+        /* --- 1. Fondo Animado Dinámico --- */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%; height: 200%;
+            top: -50%; left: -50%;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. Tarjeta con Efecto Cristal (Glassmorphism) --- */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            color: white;
+            
+            /* --- 3. Animación de Entrada --- */
+            animation: slideIn 0.8s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- Títulos --- */
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 2rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 1rem; opacity: 0.9; margin-top: 5px; }
+
+        /* --- Inputs Stylizados --- */
+        label { font-weight: 600; font-size: 0.9rem; display: block; margin: 20px 0 8px; color: #f1c40f; }
+        input, select, textarea {
+            width: 100%; padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white; font-size: 1rem;
+            transition: 0.3s all ease;
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        input:focus, select:focus, textarea:focus {
+            border-color: #f1c40f;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+        }
+
+        /* --- 4. Interacción Emojis de Ánimo --- */
+        .mood-container { display: flex; justify-content: space-around; margin: 15px 0; }
+        .mood-item { text-align: center; cursor: pointer; position: relative; }
+        .mood-btn {
+            font-size: 2.2rem;
+            opacity: 0.5;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
+            display: inline-block;
+        }
+        .mood-text { display: block; font-size: 0.75rem; margin-top: 5px; opacity: 0; transition: 0.3s; color: #f1c40f; }
+
+        /* Efectos al seleccionar o hover */
+        input[type="radio"]:checked + span, .mood-item:hover .mood-btn {
+            opacity: 1;
+            transform: scale(1.3) translateY(-5px);
+        }
+        input[type="radio"]:checked + span + .mood-text, .mood-item:hover .mood-text { opacity: 1; }
         input[type="radio"] { display: none; }
-        button { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); }
-        button:hover { background: #2980b9; transform: translateY(-2px); }
+
+        /* --- 5. Botón Enviar con Carga y Brillo --- */
+        .submit-container { position: relative; margin-top: 30px; }
+        button {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            color: #2c3e50; border: none;
+            width: 100%; padding: 18px;
+            border-radius: 15px;
+            font-weight: 800; font-size: 1.2rem; text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s all ease;
+            position: relative; overflow: hidden;
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.3);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 25px rgba(241, 196, 15, 0.5);
+        }
+        button:disabled { background: #95a5a6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Efecto de carga */
+        .spinner {
+            display: none; width: 20px; height: 20px;
+            border: 3px solid rgba(44, 62, 80, 0.3);
+            border-radius: 50%; border-top-color: #2c3e50;
+            animation: spin 1s linear infinite;
+            position: absolute; right: 20px; top: calc(50% - 10px);
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- Mensaje Éxito --- */
+        #msg { text-align: center; display: none; margin-top: 20px; padding: 15px; border-radius: 10px; background: rgba(39, 174, 96, 0.2); border: 1px solid #27ae60; color: #2ecc71; font-weight: bold; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<div class="card">
+    <div class="header">
+        <h1>🕊️ Voz de Cristo</h1>
+        <p>¡El sábado está mejor contigo! Haz tu check-in.</p>
+    </div>
+
+    <form id="asistenciaForm">
+        <label>¿Cuál es tu nombre?</label>
+        <input type="text" name="nombre" placeholder="Nombre y apellido" required>
+
+        <label>¿Cómo está tu corazón hoy?</label>
+        <div class="mood-container">
+            <label class="mood-item">
+                <input type="radio" name="sentimiento" value="Bendecido" required>
+                <span class="mood-btn">🙏</span>
+                <span class="mood-text">Bendecido</span>
+            </label>
+            <label class="mood-item">
+                <input type="radio" name="sentimiento" value="Con toda">
+                <span class="mood-btn">🔥</span>
+                <span class="mood-text">Con toda</span>
+            </label>
+            <label class="mood-item">
+                <input type="radio" name="sentimiento" value="Relajao">
+                <span class="mood-btn">😎</span>
+                <span class="mood-text">Relajao</span>
+            </label>
+            <label class="mood-item">
+                <input type="radio" name="sentimiento" value="Necesito oración">
+                <span class="mood-btn">🥺</span>
+                <span class="mood-text">Oración</span>
+            </label>
+        </div>
+
+        <label>¿Algo para agradecer o compartir?</label>
+        <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo base..."></textarea>
+
+        <div class="submit-container">
+            <button type="submit" id="btnEnviar">
+                <span id="btnText">¡Presente! ✅</span>
+                <div class="spinner" id="btnSpinner"></div>
+            </button>
+        </div>
+    </form>
+    
+    <div id="msg">¡Listo! Dios te bendiga mucho hoy.</div>
+</div>
+
+<script>
+    // URL CRÍTICA - Cámbiala por la tuya
+    const scriptURL = 'TU_URL_DE_APPS_SCRIPT_AQUI';
+    const form = document.getElementById('asistenciaForm');
+    const btn = document.getElementById('btnEnviar');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        // Iniciar UI de carga
+        btn.disabled = true;
+        btnText.innerText = "Registrando...";
+        btnSpinner.style.display = 'block';
+        msg.style.display = 'none';
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(res => {
+                // UI de éxito
+                msg.style.display = 'block';
+                form.reset();
+                btn.disabled = false;
+                btnText.innerText = "¡Presente! ✅";
+                btnSpinner.style.display = 'none';
+                
+                // Ocultar mensaje de éxito tras 5 segundos
+                setTimeout(()=> msg.style.display = 'none', 5000);
+            })
+            .catch(err => {
+                alert('Hubo un error de conexión. ¡Avísale a Samuel!');
+                btn.disabled = false;
+                btnText.innerText = "Reintentar 🔄";
+                btnSpinner.style.display = 'none';
+            });
+    });
+</script>
+
+</body>
+</html>
 <div class="card">
     <div class="header">
         <h1>🕊️ Voz de Cristo</h1>
