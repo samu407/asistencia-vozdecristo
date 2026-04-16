@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencia Voz de Cristo</title>
+    <style>
+        :root { --primary: #3498db; --accent: #f1c40f; --dark: #2c3e50; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .card { background: white; color: var(--dark); padding: 30px; border-radius: 20px; width: 100%; max-width: 450px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 1.8rem; color: var(--primary); margin: 0; }
+        .header p { font-size: 0.9rem; color: #7f8c8d; }
+        label { font-weight: bold; font-size: 0.9rem; display: block; margin: 15px 0 5px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #ecf0f1; border-radius: 10px; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: var(--primary); outline: none; }
+        .mood-container { display: flex; justify-content: space-between; margin: 10px 0; }
+        .mood-btn { font-size: 1.5rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
+        .mood-btn:hover, input[type="radio"]:checked + span { opacity: 1; transform: scale(1.2); }
+        input[type="radio"] { display: none; }
+        button { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); }
+        button:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1>🕊️ Voz de Cristo</h1>
+        <p>¡Qué alegría tenerte aquí este sábado!</p>
+    </div>
+
+    <form id="asistenciaForm">
+        <label>¿Cómo te llamas?</label>
+        <input type="text" name="nombre" placeholder="Tu nombre completo" required>
+
+        <label>¿Cómo te sientes hoy?</label>
+        <div class="mood-container">
+            <label><input type="radio" name="sentimiento" value="Bendecido" required><span class="mood-btn">🙏</span></label>
+            <label><input type="radio" name="sentimiento" value="Feliz"><span class="mood-btn">😊</span></label>
+            <label><input type="radio" name="sentimiento" value="Cansado"><span class="mood-btn">😴</span></label>
+            <label><input type="radio" name="sentimiento" value="Necesito oración"><span class="mood-btn">😔</span></label>
+        </div>
+
+        <label>¿Algo que quieras compartir o agradecer?</label>
+        <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo..."></textarea>
+
+        <button type="submit" id="btnEnviar">¡Presente! ✅</button>
+    </form>
+    <p id="msg" style="text-align:center; display:none; color: #27ae60; font-weight: bold; margin-top: 15px;">¡Gracias por venir! Dios te bendiga.</p>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzyedu13bmWb_ZnOSLGxxqr-7ixsuBKRVqK2CGNgrDKWpi28hXOl6QHPKl79MlIINE-2Q/exec';
+    const form = document.getElementById('asistenciaForm');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const btn = document.getElementById('btnEnviar');
+        btn.disabled = true;
+        btn.innerText = "Registrando...";
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(res => {
+                document.getElementById('msg').style.display = 'block';
+                form.reset();
+                btn.innerText = "¡Listo!";
+            })
+            .catch(err => alert('Hubo un error al conectar. Inténtalo de nuevo.'));
+    });
+</script>
+
+</body>
+</html>
