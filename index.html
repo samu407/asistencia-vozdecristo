@@ -3,229 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-In Voz de Cristo</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+    <title>Voz de Cristo</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕊️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- Reset y Fuentes --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        :root {
+            --gold: #f5c842;
+            --gold2: #ffdf80;
+            --deep: #0a0a1a;
+            --blue-dark: #0d1b4b;
+            --blue-mid: #1a2f7a;
+            --white: #fff;
+            --soft: rgba(255,255,255,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-family: 'Nunito', sans-serif;
+            background: var(--deep);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow: hidden; /* Evita scrolls raros por el fondo */
+            overflow-x: hidden;
             position: relative;
         }
 
-        /* --- 1. Fondo Animado Dinámico --- */
-        body::before {
-            content: '';
+        /* ── FONDO ANIMADO ── */
+        .bg {
+            position: fixed; inset: 0; z-index: 0;
+            background: radial-gradient(ellipse at 20% 50%, #1a2f7a 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, #3b1f6b 0%, transparent 55%),
+                        radial-gradient(ellipse at 60% 80%, #0d1b4b 0%, transparent 60%),
+                        #060614;
+        }
+
+        /* Partículas flotantes */
+        .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        .particle {
             position: absolute;
-            width: 200%; height: 200%;
-            top: -50%; left: -50%;
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #6a11cb, #2575fc);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            z-index: -1;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- 2. Tarjeta con Efecto Cristal (Glassmorphism) --- */
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            color: white;
-            
-            /* --- 3. Animación de Entrada --- */
-            animation: slideIn 0.8s ease-out;
+            width: 3px; height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
             opacity: 0;
-            animation-fill-mode: forwards;
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
-        @keyframes slideIn {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        /* Rayos de luz */
+        .light-ray {
+            position: fixed;
+            width: 2px;
+            height: 70vh;
+            background: linear-gradient(to bottom, transparent, rgba(245,200,66,0.12), transparent);
+            animation: rayPulse ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        @keyframes rayPulse { from { opacity: 0.3; } to { opacity: 1; } }
+
+        /* ── CONTENEDOR ── */
+        .wrapper {
+            position: relative; z-index: 10;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 30px 20px;
         }
 
-        /* --- Títulos --- */
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { font-size: 2rem; color: #f1c40f; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .header p { font-size: 1rem; opacity: 0.9; margin-top: 5px; }
-
-        /* --- Inputs Stylizados --- */
-        label { font-weight: 600; font-size: 0.9rem; display: block; margin: 20px 0 8px; color: #f1c40f; }
-        input, select, textarea {
-            width: 100%; padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: white; font-size: 1rem;
-            transition: 0.3s all ease;
+        /* ── LOGO / HEADER ── */
+        .hero {
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeDown 0.8s ease both;
         }
-        input::placeholder { color: rgba(255, 255, 255, 0.5); }
-        input:focus, select:focus, textarea:focus {
-            border-color: #f1c40f;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 4. Interacción Emojis de Ánimo --- */
-        .mood-container { display: flex; justify-content: space-around; margin: 15px 0; }
-        .mood-item { text-align: center; cursor: pointer; position: relative; }
-        .mood-btn {
-            font-size: 2.2rem;
-            opacity: 0.5;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote */
+        .dove-wrap {
+            position: relative;
             display: inline-block;
+            margin-bottom: 15px;
         }
-        .mood-text { display: block; font-size: 0.75rem; margin-top: 5px; opacity: 0; transition: 0.3s; color: #f1c40f; }
+        .dove-img {
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 30px rgba(245,200,66,0.5), 0 0 60px rgba(245,200,66,0.2);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(245,200,66,0.5), 0 0 60px rgba(245,200,66,0.2); }
+            50%       { box-shadow: 0 0 50px rgba(245,200,66,0.9), 0 0 100px rgba(245,200,66,0.4); }
+        }
 
-        /* Efectos al seleccionar o hover */
-        input[type="radio"]:checked + span, .mood-item:hover .mood-btn {
-            opacity: 1;
-            transform: scale(1.3) translateY(-5px);
+        /* Fallback si no hay imagen */
+        .dove-fallback {
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a2f7a, #3b1f6b);
+            border: 3px solid var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 0 30px rgba(245,200,66,0.5);
+            animation: glowPulse 3s ease-in-out infinite;
         }
-        input[type="radio"]:checked + span + .mood-text, .mood-item:hover .mood-text { opacity: 1; }
-        input[type="radio"] { display: none; }
 
-        /* --- 5. Botón Enviar con Carga y Brillo --- */
-        .submit-container { position: relative; margin-top: 30px; }
-        button {
-            background: linear-gradient(45deg, #f1c40f, #f39c12);
-            color: #2c3e50; border: none;
-            width: 100%; padding: 18px;
-            border-radius: 15px;
-            font-weight: 800; font-size: 1.2rem; text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s all ease;
-            position: relative; overflow: hidden;
-            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.3);
+        .ring {
+            position: absolute; inset: -8px;
+            border-radius: 50%;
+            border: 2px dashed rgba(245,200,66,0.4);
+            animation: spin 12s linear infinite;
         }
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 9px 25px rgba(241, 196, 15, 0.5);
-        }
-        button:disabled { background: #95a5a6; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* Efecto de carga */
-        .spinner {
-            display: none; width: 20px; height: 20px;
-            border: 3px solid rgba(44, 62, 80, 0.3);
-            border-radius: 50%; border-top-color: #2c3e50;
-            animation: spin 1s linear infinite;
-            position: absolute; right: 20px; top: calc(50% - 10px);
+        .ring2 {
+            position: absolute; inset: -18px;
+            border-radius: 50%;
+            border: 1px dashed rgba(245,200,66,0.2);
+            animation: spin 20s linear infinite reverse;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- Mensaje Éxito --- */
-        #msg { text-align: center; display: none; margin-top: 20px; padding: 15px; border-radius: 10px; background: rgba(39, 174, 96, 0.2); border: 1px solid #27ae60; color: #2ecc71; font-weight: bold; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #f5c842 0%, #fff 50%, #f5c842 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-shadow: none;
+            line-height: 1.2;
+            animation: shimmer 3s linear infinite;
+            background-size: 200%;
+        }
+        @keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
 
+        .subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* ── CARD ── */
+        .card {
+            width: 100%; max-width: 470px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245,200,66,0.25);
+            border-radius: 28px;
+            padding: 36px 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: fadeUp 0.9s 0.2s ease both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Separador decorativo */
+        .divider {
+            display: flex; align-items: center; gap: 10px;
+            margin: 22px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(245,200,66,0.4), transparent);
+        }
+        .divider span { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; }
+
+        /* ── CAMPOS ── */
+        .field { margin-bottom: 20px; }
+        .field label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--gold2);
+            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .field input, .field textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.07);
+            border: 1.5px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+            outline: none;
+        }
+        .field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.3); }
+        .field input:focus, .field textarea:focus {
+            border-color: var(--gold);
+            background: rgba(245,200,66,0.08);
+            box-shadow: 0 0 0 3px rgba(245,200,66,0.15);
+        }
+        .field textarea { resize: none; rows: 3; }
+
+        /* ── EMOJIS DE ESTADO ── */
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .mood-option { position: relative; }
+        .mood-option input[type="radio"] { display: none; }
+        .mood-option label {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 6px;
+            padding: 14px 6px 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-transform: none;
+            letter-spacing: 0;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .mood-option label .emoji {
+            font-size: 2rem;
+            transition: transform 0.3s;
+            line-height: 1;
+        }
+        .mood-option label:hover {
+            border-color: rgba(245,200,66,0.5);
+            background: rgba(245,200,66,0.1);
+            transform: translateY(-3px);
+        }
+        .mood-option label:hover .emoji { transform: scale(1.25) rotate(-5deg); }
+        .mood-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, rgba(245,200,66,0.25), rgba(245,200,66,0.1));
+            border-color: var(--gold);
+            color: var(--gold2);
+            box-shadow: 0 4px 20px rgba(245,200,66,0.25);
+        }
+        .mood-option input[type="radio"]:checked + label .emoji {
+            transform: scale(1.3) rotate(-5deg);
+            animation: bounce 0.4s ease;
+        }
+        @keyframes bounce {
+            0%  { transform: scale(1); }
+            50% { transform: scale(1.5) rotate(-10deg); }
+            100%{ transform: scale(1.3) rotate(-5deg); }
+        }
+
+        /* ── BOTÓN ── */
+        .btn-submit {
+            width: 100%;
+            margin-top: 26px;
+            padding: 18px;
+            background: linear-gradient(135deg, #f5c842 0%, #e5a800 100%);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 30px rgba(245,200,66,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            transition: left 0.5s;
+        }
+        .btn-submit:hover::before { left: 100%; }
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(245,200,66,0.6);
+        }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled {
+            opacity: 0.7; cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── MENSAJE ÉXITO ── */
+        .success-msg {
+            display: none;
+            text-align: center;
+            animation: popIn 0.5s ease;
+            padding: 10px 0;
+        }
+        @keyframes popIn {
+            0%   { opacity: 0; transform: scale(0.8); }
+            70%  { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .success-msg .big-emoji { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+        .success-msg h2 {
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .success-msg p { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; }
+
+        /* ── FOOTER ── */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            animation: fadeUp 1s 0.5s ease both;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .card { padding: 28px 20px; }
+            .mood-grid { gap: 7px; }
+            .mood-option label { padding: 10px 4px 8px; font-size: 0.65rem; }
+            .mood-option label .emoji { font-size: 1.7rem; }
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="card">
-    <div class="header">
-        <h1>🕊️ Voz de Cristo</h1>
-        <p>¡El sábado está mejor contigo! Haz tu check-in.</p>
+<!-- Fondo -->
+<div class="bg"></div>
+<div class="particles" id="particles"></div>
+
+<!-- Rayos de luz decorativos -->
+<div class="light-ray" style="left:15%;top:0;animation-duration:4s;"></div>
+<div class="light-ray" style="left:50%;top:10%;animation-duration:6s;animation-delay:1s;"></div>
+<div class="light-ray" style="right:18%;top:5%;animation-duration:5s;animation-delay:2s;"></div>
+
+<div class="wrapper">
+
+    <!-- Header -->
+    <div class="hero">
+        <div class="dove-wrap">
+            <!-- COLOCA AQUÍ LA URL O RUTA DE TU IMAGEN -->
+            <!-- Si tienes una imagen guardada, reemplaza el src. Si no tienes imagen, borra el img y descomenta el div.dove-fallback -->
+            <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Holy_Spirit_as_Dove.jpg/220px-Holy_Spirit_as_Dove.jpg"
+                alt="Voz de Cristo"
+                class="dove-img"
+                onerror="this.style.display='none'; document.getElementById('fallback').style.display='flex';"
+            >
+            <div class="dove-fallback" id="fallback" style="display:none;">🕊️</div>
+            <div class="ring"></div>
+            <div class="ring2"></div>
+        </div>
+        <div class="title">Voz de Cristo</div>
+        <div class="subtitle">✦ Grupo Juvenil Católico ✦</div>
     </div>
 
-    <form id="asistenciaForm">
-        <label>¿Cuál es tu nombre?</label>
-        <input type="text" name="nombre" placeholder="Nombre y apellido" required>
+    <!-- Card -->
+    <div class="card">
 
-        <label>¿Cómo está tu corazón hoy?</label>
-        <div class="mood-container">
-            <label class="mood-item">
-                <input type="radio" name="sentimiento" value="Bendecido" required>
-                <span class="mood-btn">🙏</span>
-                <span class="mood-text">Bendecido</span>
-            </label>
-            <label class="mood-item">
-                <input type="radio" name="sentimiento" value="Con toda">
-                <span class="mood-btn">🔥</span>
-                <span class="mood-text">Con toda</span>
-            </label>
-            <label class="mood-item">
-                <input type="radio" name="sentimiento" value="Relajao">
-                <span class="mood-btn">😎</span>
-                <span class="mood-text">Relajao</span>
-            </label>
-            <label class="mood-item">
-                <input type="radio" name="sentimiento" value="Necesito oración">
-                <span class="mood-btn">🥺</span>
-                <span class="mood-text">Oración</span>
-            </label>
+        <div id="formSection">
+            <div class="divider"><span>✦ Registro de Asistencia ✦</span></div>
+
+            <form id="asistenciaForm">
+
+                <div class="field">
+                    <label>¿Cómo te llamas?</label>
+                    <input type="text" name="nombre" placeholder="Tu nombre completo" required autocomplete="name">
+                </div>
+
+                <div class="field">
+                    <label>¿Cómo te sientes hoy?</label>
+                    <div class="mood-grid">
+                        <div class="mood-option">
+                            <input type="radio" name="sentimiento" id="m1" value="Bendecido" required>
+                            <label for="m1"><span class="emoji">🙏</span>Bendecido</label>
+                        </div>
+                        <div class="mood-option">
+                            <input type="radio" name="sentimiento" id="m2" value="Feliz">
+                            <label for="m2"><span class="emoji">😊</span>Feliz</label>
+                        </div>
+                        <div class="mood-option">
+                            <input type="radio" name="sentimiento" id="m3" value="Cansado">
+                            <label for="m3"><span class="emoji">😴</span>Cansado</label>
+                        </div>
+                        <div class="mood-option">
+                            <input type="radio" name="sentimiento" id="m4" value="Necesito oración">
+                            <label for="m4"><span class="emoji">🥺</span>Oración</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>¿Algo que quieras compartir?</label>
+                    <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo... 💬"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnEnviar">
+                    ¡Presente! ✝️
+                </button>
+
+            </form>
         </div>
 
-        <label>¿Algo para agradecer o compartir?</label>
-        <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo base..."></textarea>
-
-        <div class="submit-container">
-            <button type="submit" id="btnEnviar">
-                <span id="btnText">¡Presente! ✅</span>
-                <div class="spinner" id="btnSpinner"></div>
-            </button>
+        <!-- Mensaje de éxito -->
+        <div class="success-msg" id="successMsg">
+            <span class="big-emoji">🎉</span>
+            <h2>¡Registrado!</h2>
+            <p>Dios te bendiga enormemente.<br>¡Qué alegría tenerte hoy aquí con nosotros!</p>
         </div>
-    </form>
-    
-    <div id="msg">¡Listo! Dios te bendiga mucho hoy.</div>
+
+    </div>
+
+    <div class="footer">Voz de Cristo © 2025 — Con ❤️ para el grupo</div>
+
 </div>
 
 <script>
-    // URL CRÍTICA - Cámbiala por la tuya
+    // ── PARTÍCULAS ──
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+        p.style.animationDuration = (Math.random() * 12 + 8) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        // Algunas partículas son cruces pequeñas
+        if (Math.random() > 0.7) {
+            p.style.borderRadius = '0';
+            p.innerHTML = '';
+            p.style.background = 'transparent';
+            p.style.width = '8px'; p.style.height = '8px';
+            p.style.fontSize = '10px';
+            p.style.color = 'rgba(245,200,66,0.5)';
+            p.style.display = 'flex';
+            p.style.alignItems = 'center';
+            p.textContent = '✦';
+        }
+        container.appendChild(p);
+    }
+
+    // ── FORMULARIO ──
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzyedu13bmWb_ZnOSLGxxqr-7ixsuBKRVqK2CGNgrDKWpi28hXOl6QHPKl79MlIINE-2Q/exec';
     const form = document.getElementById('asistenciaForm');
-    const btn = document.getElementById('btnEnviar');
-    const btnText = document.getElementById('btnText');
-    const btnSpinner = document.getElementById('btnSpinner');
-    const msg = document.getElementById('msg');
 
     form.addEventListener('submit', e => {
         e.preventDefault();
-        
-        // Iniciar UI de carga
+        const btn = document.getElementById('btnEnviar');
         btn.disabled = true;
-        btnText.innerText = "Registrando...";
-        btnSpinner.style.display = 'block';
-        msg.style.display = 'none';
+        btn.textContent = '⏳ Registrando...';
 
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(res => {
-                // UI de éxito
+        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(() => {
+                document.getElementById('formSection').style.display = 'none';
+                const msg = document.getElementById('successMsg');
                 msg.style.display = 'block';
                 form.reset();
-                btn.disabled = false;
-                btnText.innerText = "¡Presente! ✅";
-                btnSpinner.style.display = 'none';
-                
-                // Ocultar mensaje de éxito tras 5 segundos
-                setTimeout(()=> msg.style.display = 'none', 5000);
             })
-            .catch(err => {
-                alert('Hubo un error de conexión. ¡Avísale a Samuel!');
+            .catch(() => {
+                alert('Hubo un error al conectar. Inténtalo de nuevo.');
                 btn.disabled = false;
-                btnText.innerText = "Reintentar 🔄";
-                btnSpinner.style.display = 'none';
+                btn.textContent = '¡Presente! ✝️';
             });
     });
 </script>
-
 </body>
 </html>
