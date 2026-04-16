@@ -286,16 +286,45 @@
 
             <form id="asistenciaForm">
 
+                <!-- MES -->
+                <div class="field">
+                    <label>📅 Mes del grupo</label>
+                    <select name="mes" id="selMes" required>
+                        <option value="" disabled selected>— Selecciona el mes —</option>
+                        <option value="Enero">Enero</option>
+                        <option value="Febrero">Febrero</option>
+                        <option value="Marzo">Marzo</option>
+                        <option value="Abril">Abril</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Junio">Junio</option>
+                        <option value="Julio">Julio</option>
+                        <option value="Agosto">Agosto</option>
+                        <option value="Septiembre">Septiembre</option>
+                        <option value="Octubre">Octubre</option>
+                        <option value="Noviembre">Noviembre</option>
+                        <option value="Diciembre">Diciembre</option>
+                    </select>
+                </div>
+
+                <!-- SÁBADO (se llena automáticamente) -->
+                <div class="field" id="wrapSabado" style="display:none;">
+                    <label>🗓️ Sábado de asistencia</label>
+                    <select name="sabado" id="selSabado" required>
+                        <option value="" disabled selected>— Elige el sábado —</option>
+                    </select>
+                </div>
+
+                <!-- NOMBRE -->
                 <div class="field">
                     <label>¿Quién eres?</label>
                     <select name="nombre" required>
                         <option value="" disabled selected>— Selecciona tu nombre —</option>
-                        <option>Melissa Pelaez</option>
+                        <option>Ana María García López</option>
                         <option>Samuel Garces</option>
-                        <option>Jose Miguel</option>
-                        
+                    </select>
                 </div>
 
+                <!-- ESTADO DE ÁNIMO -->
                 <div class="field">
                     <label>¿Cómo te sientes hoy?</label>
                     <div class="mood-grid">
@@ -318,6 +347,7 @@
                     </div>
                 </div>
 
+                <!-- COMENTARIO -->
                 <div class="field">
                     <label>¿Algo que quieras compartir?</label>
                     <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo... 💬"></textarea>
@@ -362,8 +392,59 @@
         container.appendChild(p);
     }
 
+    // ── SÁBADOS AUTOMÁTICOS ──
+    const MESES = {
+        Enero:0, Febrero:1, Marzo:2, Abril:3, Mayo:4, Junio:5,
+        Julio:6, Agosto:7, Septiembre:8, Octubre:9, Noviembre:10, Diciembre:11
+    };
+    const DIAS_ES = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio',
+                      'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+    function getSabados(mesNombre) {
+        const anio = new Date().getFullYear();
+        const mesIdx = MESES[mesNombre];
+        const sabados = [];
+        const d = new Date(anio, mesIdx, 1);
+        // Avanzar hasta el primer sábado
+        while (d.getDay() !== 6) d.setDate(d.getDate() + 1);
+        while (d.getMonth() === mesIdx) {
+            const dia  = d.getDate();
+            const mes  = MESES_ES[d.getMonth()];
+            const anioD = d.getFullYear();
+            sabados.push({
+                valor: `${dia} de ${mes.charAt(0).toUpperCase()+mes.slice(1)} ${anioD}`,
+                label: `Sábado ${dia} de ${mes}`
+            });
+            d.setDate(d.getDate() + 7);
+        }
+        return sabados;
+    }
+
+    const selMes    = document.getElementById('selMes');
+    const selSabado = document.getElementById('selSabado');
+    const wrapSabado = document.getElementById('wrapSabado');
+
+    selMes.addEventListener('change', () => {
+        const mes = selMes.value;
+        selSabado.innerHTML = '<option value="" disabled selected>— Elige el sábado —</option>';
+        if (mes) {
+            getSabados(mes).forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.valor;
+                opt.textContent = s.label;
+                selSabado.appendChild(opt);
+            });
+            // Mostrar con animación
+            wrapSabado.style.display = 'block';
+            wrapSabado.style.animation = 'fadeUp 0.4s ease both';
+        } else {
+            wrapSabado.style.display = 'none';
+        }
+    });
+
     // ── FORMULARIO ──
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzyedu13bmWb_ZnOSLGxxqr-7ixsuBKRVqK2CGNgrDKWpi28hXOl6QHPKl79MlIINE-2Q/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx2pXLdUlSdw4K1my9drSCAF6fhM1RnDOuldsDRHcdJyrzR5HvnYn-1cY2qYaaawBKC5Q/exec';
     const form = document.getElementById('asistenciaForm');
 
     form.addEventListener('submit', e => {
@@ -376,6 +457,7 @@
                 document.getElementById('formSection').style.display = 'none';
                 document.getElementById('successMsg').style.display = 'block';
                 form.reset();
+                wrapSabado.style.display = 'none';
             })
             .catch(() => {
                 alert('Hubo un error al conectar. Inténtalo de nuevo.');
