@@ -319,8 +319,9 @@
                 <!-- NOMBRE -->
                 <div class="field">
                     <label>¿Quién eres?</label>
-                    <select name="nombre" required>
+                    <select name="nombre" id="selNombre" required onchange="checkNombreEnLista(this)">
                         <option value="" disabled selected>— Selecciona tu nombre —</option>
+                        <option value="__nuevo__">🆕 Mi nombre no está en la lista</option>
                         <option>Andres Felipe Escobar</option>
                         <option>Anny Gisella Ordoñez</option>
                         <option>Cristian David Ramirez</option>
@@ -354,6 +355,38 @@
                         <option>Wilmar Esteban Quintero</option>
                         <option>Wuilmarys Daniela Marquez</option>
                     </select>
+                </div>
+
+                <!-- SECCIÓN NUEVO VISITANTE (oculto por defecto) -->
+                <div id="seccionNuevoVisitante" style="display:none;background:linear-gradient(145deg,rgba(245,200,66,.07),rgba(245,200,66,.02));border:1px solid rgba(245,200,66,.25);border-radius:18px;padding:22px 18px;margin-bottom:20px;animation:fadeUp .4s ease both;">
+                  <p style="font-size:.78rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">✦ Cuéntanos un poco sobre ti ✦</p>
+
+                  <div class="field">
+                    <label>📝 Nombre completo</label>
+                    <input type="text" id="visitanteNombre" placeholder="Tu nombre y apellido" style="width:100%;padding:14px 18px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;">
+                  </div>
+
+                  <div class="field">
+                    <label>🎂 Fecha de nacimiento</label>
+                    <input type="date" id="visitanteFecha" style="width:100%;padding:14px 18px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;color-scheme:dark;">
+                  </div>
+
+                  <div class="field">
+                    <label>🏠 ¿De dónde vienes?</label>
+                    <select id="visitanteOrigen" onchange="toggleOrigenOtro(this)" style="width:100%;padding:14px 18px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23f5c842\' stroke-width=\'2\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 16px center;cursor:pointer;">
+                      <option value="" disabled selected>— ¿Cómo llegaste? —</option>
+                      <option value="Invitación de un amigo del grupo">Invitación de un amigo del grupo</option>
+                      <option value="La parroquia me invitó">La parroquia me invitó</option>
+                      <option value="Redes sociales / Instagram">Redes sociales / Instagram</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+
+                  <!-- Campo "Otro" que aparece al seleccionar esa opción -->
+                  <div class="field" id="wrapOtroOrigen" style="display:none;">
+                    <label>✍️ Cuéntanos cómo llegaste</label>
+                    <input type="text" id="visitanteOrigenOtro" placeholder="Ej: vi un cartel, pasé por la iglesia..." style="width:100%;padding:14px 18px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;">
+                  </div>
                 </div>
 
                 <!-- ESTADO DE ÁNIMO -->
@@ -475,21 +508,89 @@
         }
     });
 
+    // ── VISITANTE NUEVO ──
+    function toggleOrigenOtro(select) {
+        const wrap = document.getElementById('wrapOtroOrigen');
+        const input = document.getElementById('visitanteOrigenOtro');
+        if (select.value === 'Otro') {
+            wrap.style.display = 'block';
+            input.required = true;
+        } else {
+            wrap.style.display = 'none';
+            input.required = false;
+            input.value = '';
+        }
+    }
+
+    function checkNombreEnLista(select) {
+        const seccion = document.getElementById('seccionNuevoVisitante');
+        if (select.value === '__nuevo__') {
+            seccion.style.display = 'block';
+            // Hacer que los campos del visitante sean requeridos
+            document.getElementById('visitanteNombre').required = true;
+            document.getElementById('visitanteFecha').required = true;
+            document.getElementById('visitanteOrigen').required = true;
+        } else {
+            seccion.style.display = 'none';
+            document.getElementById('visitanteNombre').required = false;
+            document.getElementById('visitanteFecha').required = false;
+            document.getElementById('visitanteOrigen').required = false;
+        }
+    }
+
     // ── FORMULARIO ──
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx2pXLdUlSdw4K1my9drSCAF6fhM1RnDOuldsDRHcdJyrzR5HvnYn-1cY2qYaaawBKC5Q/exec';
     const form = document.getElementById('asistenciaForm');
 
     form.addEventListener('submit', e => {
         e.preventDefault();
+
+        // Si es visitante nuevo, ajustar el campo nombre
+        const selNombre = document.getElementById('selNombre');
+        const esNuevo = selNombre.value === '__nuevo__';
+
+        if (esNuevo) {
+            const nombre = document.getElementById('visitanteNombre').value.trim();
+            const fecha = document.getElementById('visitanteFecha').value;
+            const origen = document.getElementById('visitanteOrigen').value;
+            const origenSelVal = document.getElementById('visitanteOrigen').value;
+            const origenOtroVal = document.getElementById('visitanteOrigenOtro').value.trim();
+            if (!nombre || !fecha || !origenSelVal) {
+                alert('Por favor completa todos los campos de visitante nuevo.');
+                return;
+            }
+            if (origenSelVal === 'Otro' && !origenOtroVal) {
+                alert('Por favor describe cómo llegaste al grupo.');
+                return;
+            }
+        }
+
         const btn = document.getElementById('btnEnviar');
         btn.disabled = true;
         btn.textContent = '⏳ Registrando...';
-        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+
+        const formData = new FormData(form);
+
+        // Si es nuevo, reemplazar el nombre en formData
+        if (esNuevo) {
+            const nombre = document.getElementById('visitanteNombre').value.trim();
+            const fecha = document.getElementById('visitanteFecha').value;
+            const origenSelect = document.getElementById('visitanteOrigen').value;
+            const origenOtro = document.getElementById('visitanteOrigenOtro').value.trim();
+            const origen = origenSelect === 'Otro' ? `Otro: ${origenOtro}` : origenSelect;
+            formData.set('nombre', `${nombre} (NUEVO)`);
+            formData.set('visitante_nombre', nombre);
+            formData.set('visitante_fecha_nac', fecha);
+            formData.set('visitante_origen', origen);
+        }
+
+        fetch(scriptURL, { method: 'POST', body: formData })
             .then(() => {
                 document.getElementById('formSection').style.display = 'none';
                 document.getElementById('successMsg').style.display = 'block';
                 form.reset();
                 wrapSabado.style.display = 'none';
+                document.getElementById('seccionNuevoVisitante').style.display = 'none';
             })
             .catch(() => {
                 alert('Hubo un error al conectar. Inténtalo de nuevo.');
