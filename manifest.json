@@ -1,7 +1,7 @@
 {
   "name": "Registro de Asistencia Voz de Cristo",
   "short_name": "Asistencia VdC",
-  "start_url": "./asistencia.html", 
+  "start_url": "./index.html", 
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#ff0055",
