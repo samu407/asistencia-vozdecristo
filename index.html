@@ -392,7 +392,7 @@
                     <label>¿Cómo te sientes hoy?</label>
                     <div class="mood-grid">
                         <div class="mood-option">
-                            <input type="radio" name="sentimiento" id="m1" value="Bendecido" required>
+                            <input type="radio" name="sentimiento" id="m1" value="Bendecido">
                             <label for="m1"><span class="emoji">🙏</span>Bendecido</label>
                         </div>
                         <div class="mood-option">
@@ -427,6 +427,9 @@
             <h2>¡Registrado!</h2>
             <p>Dios te bendiga enormemente.<br>¡Qué alegría tenerte hoy aquí con nosotros!</p>
             <p id="successDetalle" style="margin-top:10px;font-size:.82rem;color:rgba(245,200,66,.85);font-weight:700;letter-spacing:.5px;"></p>
+            <button onclick="corregirRegistro()" style="margin-top:22px;background:transparent;border:1.5px solid rgba(255,255,255,.25);border-radius:12px;color:rgba(255,255,255,.5);font-family:Nunito,sans-serif;font-size:.8rem;padding:10px 20px;cursor:pointer;transition:all .3s;">
+                u270fufe0f Me equivoquu00e9 de nombre u2014 corregir
+            </button>
         </div>
     </div>
 
@@ -548,6 +551,51 @@
     const scriptURL = 'https://script.google.com/macros/s/AKfycbx2pXLdUlSdw4K1my9drSCAF6fhM1RnDOuldsDRHcdJyrzR5HvnYn-1cY2qYaaawBKC5Q/exec';
     const form = document.getElementById('asistenciaForm');
 
+    // ── CLAVE ANTI-DUPLICADO ──
+    // Usa el sábado como clave en localStorage para evitar doble registro
+    function claveRegistro() {
+        return 'registrado_' + document.getElementById('sabadoVal').value.replace(/\s/g,'_');
+    }
+
+    // Verifica si ya se registró este sábado
+    function yaRegistrado() {
+        try { return localStorage.getItem(claveRegistro()) === '1'; } catch(e) { return false; }
+    }
+
+    // Marca como registrado
+    function marcarRegistrado() {
+        try { localStorage.setItem(claveRegistro(), '1'); } catch(e) {}
+    }
+
+    // Borra el registro (para corrección de nombre)
+    function borrarRegistro() {
+        try { localStorage.removeItem(claveRegistro()); } catch(e) {}
+    }
+
+    // Función para corregir el nombre equivocado
+    function corregirRegistro() {
+        borrarRegistro();
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('formSection').style.display = 'block';
+        form.reset();
+        document.getElementById('seccionNuevoVisitante').style.display = 'none';
+        const btn = document.getElementById('btnEnviar');
+        btn.disabled = false;
+        btn.textContent = '¡Presente! ✝️';
+    }
+
+    // Al cargar, si ya se registró este sábado, mostrar pantalla de éxito directamente
+    window.addEventListener('DOMContentLoaded', () => {
+        if (yaRegistrado()) {
+            const sabadoGuardado = document.getElementById('sabadoVal').value;
+            const mesGuardado = document.getElementById('mesVal').value;
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+            const det = document.getElementById('successDetalle');
+            if (det) det.textContent = `📅 Ya registrado: ${sabadoGuardado} (${mesGuardado})`;
+        }
+    });
+
     form.addEventListener('submit', e => {
         e.preventDefault();
 
@@ -558,7 +606,6 @@
         if (esNuevo) {
             const nombre = document.getElementById('visitanteNombre').value.trim();
             const fecha = document.getElementById('visitanteFecha').value;
-            const origen = document.getElementById('visitanteOrigen').value;
             const origenSelVal = document.getElementById('visitanteOrigen').value;
             const origenOtroVal = document.getElementById('visitanteOrigenOtro').value.trim();
             if (!nombre || !fecha || !origenSelVal) {
@@ -596,13 +643,12 @@
 
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(() => {
+                marcarRegistrado();
                 document.getElementById('formSection').style.display = 'none';
                 document.getElementById('successMsg').style.display = 'block';
-                // Mostrar fecha registrada
                 const det = document.getElementById('successDetalle');
                 if (det) det.textContent = `📅 Registrado para: ${sabadoGuardado} (${mesGuardado})`;
                 form.reset();
-                // NO ocultamos wrapSabado porque siempre está visible
                 document.getElementById('seccionNuevoVisitante').style.display = 'none';
             })
             .catch(() => {
@@ -611,6 +657,7 @@
                 btn.textContent = '¡Presente! ✝️';
             });
     });
+
 </script>
     <script>
   if ('serviceWorker' in navigator) {
