@@ -290,32 +290,26 @@
 
             <form id="asistenciaForm">
 
-                <!-- MES -->
+                <!-- MES — bloqueado al mes actual automáticamente -->
                 <div class="field">
                     <label>📅 Mes del grupo</label>
-                    <select name="mes" id="selMes" required>
-                        <option value="" disabled selected>— Selecciona el mes —</option>
-                        <option value="Enero">Enero</option>
-                        <option value="Febrero">Febrero</option>
-                        <option value="Marzo">Marzo</option>
-                        <option value="Abril">Abril</option>
-                        <option value="Mayo">Mayo</option>
-                        <option value="Junio">Junio</option>
-                        <option value="Julio">Julio</option>
-                        <option value="Agosto">Agosto</option>
-                        <option value="Septiembre">Septiembre</option>
-                        <option value="Octubre">Octubre</option>
-                        <option value="Noviembre">Noviembre</option>
-                        <option value="Diciembre">Diciembre</option>
-                    </select>
+                    <div style="display:flex;align-items:center;gap:10px;background:rgba(245,200,66,.07);border:1.5px solid rgba(245,200,66,.35);border-radius:14px;padding:14px 18px;">
+                        <span style="font-size:1.15rem;">🔒</span>
+                        <span id="mesActualLabel" style="color:var(--gold2);font-weight:800;font-size:1rem;"></span>
+                        <input type="hidden" name="mes" id="selMes">
+                    </div>
+                    <p style="font-size:.73rem;color:rgba(255,255,255,.4);margin-top:6px;padding-left:4px;">Solo puedes registrar el mes en curso.</p>
                 </div>
 
-                <!-- SÁBADO (se llena automáticamente) -->
-                <div class="field" id="wrapSabado" style="display:none;">
+                <!-- SÁBADO — bloqueado al sábado actual/más próximo -->
+                <div class="field" id="wrapSabado">
                     <label>🗓️ Sábado de asistencia</label>
-                    <select name="sabado" id="selSabado" required>
-                        <option value="" disabled selected>— Elige el sábado —</option>
-                    </select>
+                    <div style="display:flex;align-items:center;gap:10px;background:rgba(245,200,66,.07);border:1.5px solid rgba(245,200,66,.35);border-radius:14px;padding:14px 18px;">
+                        <span style="font-size:1.15rem;">🔒</span>
+                        <span id="sabadoActualLabel" style="color:var(--gold2);font-weight:800;font-size:1rem;"></span>
+                        <input type="hidden" name="sabado" id="selSabado">
+                    </div>
+                    <p style="font-size:.73rem;color:rgba(255,255,255,.4);margin-top:6px;padding-left:4px;">Corresponde al sábado de esta semana o el más próximo.</p>
                 </div>
 
                 <!-- NOMBRE -->
@@ -431,6 +425,7 @@
             <span class="big-emoji">🎉</span>
             <h2>¡Registrado!</h2>
             <p>Dios te bendiga enormemente.<br>¡Qué alegría tenerte hoy aquí con nosotros!</p>
+            <p id="successDetalle" style="margin-top:10px;font-size:.82rem;color:rgba(255,200,66,.8);font-weight:700;"></p>
         </div>
     </div>
 
@@ -460,56 +455,68 @@
         container.appendChild(p);
     }
 
-    // ── SÁBADOS AUTOMÁTICOS ──
-    const MESES = {
-        Enero:0, Febrero:1, Marzo:2, Abril:3, Mayo:4, Junio:5,
-        Julio:6, Agosto:7, Septiembre:8, Octubre:9, Noviembre:10, Diciembre:11
-    };
-    const DIAS_ES = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-    const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio',
-                      'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    // ── DETECCIÓN AUTOMÁTICA DE MES Y SÁBADO ACTUAL ──────────────
+    const NOMBRES_MESES = [
+        'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+    ];
+    const NOMBRES_MESES_ES = [
+        'enero','febrero','marzo','abril','mayo','junio',
+        'julio','agosto','septiembre','octubre','noviembre','diciembre'
+    ];
 
-    function getSabados(mesNombre) {
-        const anio = new Date().getFullYear();
-        const mesIdx = MESES[mesNombre];
-        const sabados = [];
-        const d = new Date(anio, mesIdx, 1);
-        // Avanzar hasta el primer sábado
-        while (d.getDay() !== 6) d.setDate(d.getDate() + 1);
-        while (d.getMonth() === mesIdx) {
-            const dia  = d.getDate();
-            const mes  = MESES_ES[d.getMonth()];
-            const anioD = d.getFullYear();
-            sabados.push({
-                valor: `${dia} de ${mes.charAt(0).toUpperCase()+mes.slice(1)} ${anioD}`,
-                label: `Sábado ${dia} de ${mes}`
-            });
-            d.setDate(d.getDate() + 7);
+    // Detectar el sábado más cercano (actual o próximo)
+    // Si hoy ES sábado → hoy. Si no → el próximo sábado.
+    // Regla extra: si el sábado ya pasó esta semana (dom-vie), muestra el próximo.
+    function obtenerSabadoReunion() {
+        const hoy = new Date();
+        const diaSemana = hoy.getDay(); // 0=dom, 6=sáb
+        let sabado = new Date(hoy);
+
+        if (diaSemana === 6) {
+            // Hoy es sábado
+        } else {
+            // Avanzar hasta el próximo sábado
+            const diasHastaSabado = (6 - diaSemana + 7) % 7 || 7;
+            sabado.setDate(hoy.getDate() + diasHastaSabado);
         }
-        return sabados;
+        return sabado;
     }
 
-    const selMes    = document.getElementById('selMes');
-    const selSabado = document.getElementById('selSabado');
-    const wrapSabado = document.getElementById('wrapSabado');
+    // Ejecutar al cargar la página
+    (function inicializarFechas() {
+        const sabado   = obtenerSabadoReunion();
+        const dia      = sabado.getDate();
+        const mesIdx   = sabado.getMonth();
+        const anio     = sabado.getFullYear();
+        const mesNombre = NOMBRES_MESES[mesIdx];
+        const mesEs    = NOMBRES_MESES_ES[mesIdx];
 
-    selMes.addEventListener('change', () => {
-        const mes = selMes.value;
-        selSabado.innerHTML = '<option value="" disabled selected>— Elige el sábado —</option>';
-        if (mes) {
-            getSabados(mes).forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.valor;
-                opt.textContent = s.label;
-                selSabado.appendChild(opt);
-            });
-            // Mostrar con animación
-            wrapSabado.style.display = 'block';
-            wrapSabado.style.animation = 'fadeUp 0.4s ease both';
-        } else {
-            wrapSabado.style.display = 'none';
+        // Valor formateado del sábado (igual que antes para el backend)
+        const valorSabado = `${dia} de ${mesEs.charAt(0).toUpperCase()+mesEs.slice(1)} ${anio}`;
+        const labelSabado = `Sábado ${dia} de ${mesEs}`;
+
+        // Inyectar en los campos ocultos
+        document.getElementById('selMes').value    = mesNombre;
+        document.getElementById('selSabado').value = valorSabado;
+
+        // Mostrar en los labels visuales
+        document.getElementById('mesActualLabel').textContent  = `📅 ${mesNombre} ${anio}`;
+        document.getElementById('sabadoActualLabel').textContent = `🗓️ ${labelSabado}`;
+
+        // Aviso especial si hoy no es sábado
+        const hoy = new Date();
+        if (hoy.getDay() !== 6) {
+            const diasRestantes = (6 - hoy.getDay() + 7) % 7 || 7;
+            const msg = document.createElement('p');
+            msg.style.cssText = 'font-size:.72rem;color:rgba(255,200,66,.6);margin-top:6px;padding-left:4px;';
+            msg.textContent = `ℹ️ Hoy no es sábado — registro preparado para el próximo (en ${diasRestantes} día${diasRestantes!==1?'s':''}).`;
+            document.getElementById('wrapSabado').appendChild(msg);
         }
-    });
+    })();
+
+    // wrapSabado ya está visible por defecto (no necesita toggle)
+    const wrapSabado = document.getElementById('wrapSabado');
 
     // ── VISITANTE NUEVO ──
     function toggleOrigenOtro(select) {
@@ -587,12 +594,19 @@
             formData.set('visitante_origen', origen);
         }
 
+        // Capturar datos antes del reset para el mensaje final
+        const mesRegistrado    = document.getElementById('selMes').value;
+        const sabadoRegistrado = document.getElementById('selSabado').value;
+
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(() => {
                 document.getElementById('formSection').style.display = 'none';
-                document.getElementById('successMsg').style.display = 'block';
+                const msgExito = document.getElementById('successMsg');
+                msgExito.style.display = 'block';
+                // Mostrar detalle de fecha registrada
+                document.getElementById('successDetalle').textContent =
+                    `Registrado para: ${sabadoRegistrado} (${mesRegistrado})`;
                 form.reset();
-                wrapSabado.style.display = 'none';
                 document.getElementById('seccionNuevoVisitante').style.display = 'none';
             })
             .catch(() => {
