@@ -428,7 +428,7 @@
             <p>Dios te bendiga enormemente.<br>¡Qué alegría tenerte hoy aquí con nosotros!</p>
             <p id="successDetalle" style="margin-top:10px;font-size:.82rem;color:rgba(245,200,66,.85);font-weight:700;letter-spacing:.5px;"></p>
             <button onclick="corregirRegistro()" style="margin-top:22px;background:transparent;border:1.5px solid rgba(255,255,255,.25);border-radius:12px;color:rgba(255,255,255,.5);font-family:Nunito,sans-serif;font-size:.8rem;padding:10px 20px;cursor:pointer;transition:all .3s;">
-                Me equivoque de nombre quiero corregir
+                u270fufe0f Me equivoquu00e9 de nombre u2014 corregir
             </button>
         </div>
     </div>
@@ -506,12 +506,27 @@
         document.getElementById('mesLabel').textContent    = `📅 ${mesNombre} ${anio}`;
         document.getElementById('sabadoLabel').textContent = `🗓️ ${labelSabado}`;
 
-        // ── Aviso si hoy NO es sábado ──
+        // ── Bloquear TODO si hoy NO es sábado ──
         const hoy = new Date();
         if (hoy.getDay() !== 6) {
             const faltan = (6 - hoy.getDay() + 7) % 7 || 7;
             document.getElementById('sabadoAviso').textContent =
                 `ℹ️ Hoy no es sábado — registro para el próximo (faltan ${faltan} día${faltan!==1?'s':''}).`;
+
+            // Deshabilitar todos los campos y el botón
+            const form = document.getElementById('asistenciaForm');
+            const elementos = form.querySelectorAll('input, select, textarea, button');
+            elementos.forEach(el => {
+                el.disabled = true;
+                el.style.opacity = '0.4';
+                el.style.cursor = 'not-allowed';
+            });
+
+            // Mostrar aviso grande sobre el formulario
+            const aviso = document.createElement('div');
+            aviso.style.cssText = 'background:rgba(245,200,66,.08);border:1.5px solid rgba(245,200,66,.3);border-radius:16px;padding:18px 20px;margin-bottom:20px;text-align:center;';
+            aviso.innerHTML = `<span style="font-size:2rem;">🔒</span><p style="color:rgba(245,200,66,.9);font-weight:800;margin:8px 0 4px;font-size:.95rem;">Registro solo disponible los sábados</p><p style="color:rgba(255,255,255,.5);font-size:.8rem;">Faltan ${faltan} día${faltan!==1?'s':''} para el próximo sábado</p>`;
+            form.insertBefore(aviso, form.firstChild);
         }
     })();
 
