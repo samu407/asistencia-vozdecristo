@@ -3,153 +3,1178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retiro Voz de Cristo 2026</title>
+    <title>Voz de Cristo — Retiro Juvenil 2026</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo-voz-de-cristo (1).png">
-    <meta name="theme-color" content="#0a0a1a">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel+Decorative:wght@700;900&family=Nunito:wght@400;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700;900&family=Nunito:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <style>
-        :root { --gold:#f5c842; --gold2:#ffdf80; --deep:#060614; --ink:#0a0a1a; }
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Nunito',sans-serif;background:var(--deep);min-height:100vh;overflow-x:hidden;color:#fff}
-        .bg-cinematic{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 15% 40%,rgba(26,47,122,.7) 0%,transparent 55%),radial-gradient(ellipse at 85% 15%,rgba(80,20,10,.6) 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,rgba(10,10,30,.9) 0%,transparent 60%),radial-gradient(ellipse at 60% 50%,rgba(59,31,107,.35) 0%,transparent 60%),#060614}
-        .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.75) 100%)}
-        .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
-        .light-ray{position:fixed;width:1px;height:80vh;background:linear-gradient(to bottom,transparent,rgba(245,200,66,.08),transparent);animation:rayPulse ease-in-out infinite alternate;z-index:2}
-        @keyframes rayPulse{from{opacity:.2}to{opacity:.9}}
-        .particles{position:fixed;inset:0;z-index:2;pointer-events:none}
-        .particle{position:absolute;border-radius:50%;background:var(--gold);opacity:0;animation:floatUp linear infinite}
-        @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.7}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1.5);opacity:0}}
-        .page-wrapper{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 60px}
-        /* HERO */
-        .hero-cinema{width:100%;max-width:900px;text-align:center;animation:heroReveal 1.2s cubic-bezier(.16,1,.3,1) both}
-        @keyframes heroReveal{from{opacity:0;transform:translateY(-50px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
-        .credit-line{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:28px}
-        .credit-line::before{content:'';flex:1;max-width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(245,200,66,.6))}
-        .credit-line::after{content:'';flex:1;max-width:120px;height:1px;background:linear-gradient(to left,transparent,rgba(245,200,66,.6))}
-        .credit-text{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:5px;color:rgba(245,200,66,.7);text-transform:uppercase;white-space:nowrap}
-        .logo-cinema{position:relative;display:inline-block;margin-bottom:32px}
-        .logo-cinema img{width:140px;height:140px;border-radius:50%;object-fit:cover;object-position:center;border:2px solid var(--gold);box-shadow:0 0 40px rgba(245,200,66,.5),0 0 80px rgba(245,200,66,.2);animation:logoGlow 4s ease-in-out infinite}
-        @keyframes logoGlow{0%,100%{box-shadow:0 0 40px rgba(245,200,66,.5),0 0 80px rgba(245,200,66,.2)}50%{box-shadow:0 0 60px rgba(245,200,66,.8),0 0 120px rgba(245,200,66,.35)}}
-        .logo-ring{position:absolute;inset:-10px;border-radius:50%;border:1.5px dashed rgba(245,200,66,.35);animation:spin 14s linear infinite}
-        .logo-ring2{position:absolute;inset:-22px;border-radius:50%;border:1px dashed rgba(245,200,66,.15);animation:spin 22s linear infinite reverse}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        .pre-title{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:8px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;opacity:.85}
-        .main-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,14vw,10rem);line-height:.9;letter-spacing:4px;color:transparent;background:linear-gradient(180deg,#fff 0%,#f5c842 40%,#c89a20 70%,rgba(200,154,32,.4) 100%);-webkit-background-clip:text;background-clip:text;margin-bottom:8px;filter:drop-shadow(0 4px 30px rgba(245,200,66,.4))}
-        .subtitle-title{font-family:'Cinzel Decorative',serif;font-size:clamp(.9rem,3vw,1.5rem);letter-spacing:6px;color:rgba(255,255,255,.85);margin-bottom:20px;text-transform:uppercase}
-        .hero-divider{display:flex;align-items:center;justify-content:center;gap:16px;margin:20px auto;max-width:500px}
-        .hero-divider::before{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(245,200,66,.5))}
-        .hero-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(245,200,66,.5))}
-        .hero-divider span{color:var(--gold);font-size:1.1rem}
-        .date-banner{display:inline-flex;align-items:center;gap:12px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.3);border-radius:100px;padding:10px 28px;margin-bottom:8px}
-        .date-banner span{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:3px;color:var(--gold2);text-transform:uppercase}
-        .date-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.6}
-        /* COUNTDOWN */
-        .countdown-section{width:100%;max-width:700px;padding:40px 0;animation:fadeUp 1s .4s ease both}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-        .countdown-label{text-align:center;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:6px;color:rgba(245,200,66,.6);text-transform:uppercase;margin-bottom:20px}
-        .countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-        .countdown-unit{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(245,200,66,.2);border-radius:16px;padding:20px 8px 16px;text-align:center;backdrop-filter:blur(10px);overflow:hidden;transition:border-color .3s}
-        .countdown-unit::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(245,200,66,.5),transparent)}
-        .countdown-unit:hover{border-color:rgba(245,200,66,.5)}
-        .countdown-number{display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);line-height:1;background:linear-gradient(180deg,#fff 0%,#f5c842 60%,#c89a20 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 12px rgba(245,200,66,.5));letter-spacing:2px}
-        .countdown-word{display:block;font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:4px;color:rgba(255,255,255,.45);text-transform:uppercase;margin-top:6px}
-        /* CTA */
-        .cta-section{width:100%;max-width:540px;animation:fadeUp 1s .7s ease both}
-        .cta-btn{display:block;width:100%;position:relative;overflow:hidden;padding:24px 36px;background:linear-gradient(135deg,#f5c842 0%,#e8a800 50%,#c88a00 100%);border:none;border-radius:20px;cursor:pointer;text-decoration:none;box-shadow:0 8px 40px rgba(245,200,66,.5),0 2px 0 rgba(255,255,255,.2) inset;transition:all .3s cubic-bezier(.34,1.56,.64,1);animation:ctaPulse 3s ease-in-out infinite}
-        @keyframes ctaPulse{0%,100%{box-shadow:0 8px 40px rgba(245,200,66,.5),0 2px 0 rgba(255,255,255,.2) inset}50%{box-shadow:0 12px 60px rgba(245,200,66,.75),0 2px 0 rgba(255,255,255,.2) inset}}
-        .cta-btn::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-15deg);transition:left .6s ease}
-        .cta-btn:hover::before{left:140%}
-        .cta-btn:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 16px 60px rgba(245,200,66,.7),0 2px 0 rgba(255,255,255,.2) inset}
-        .cta-btn:active{transform:translateY(1px) scale(.99)}
-        .cta-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:14px}
-        .cta-icon{font-size:1.6rem;flex-shrink:0}
-        .cta-text-wrap{text-align:left}
-        .cta-main-text{display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(1.3rem,4vw,1.8rem);letter-spacing:3px;color:var(--ink);line-height:1.1}
-        .cta-sub-text{display:block;font-family:'Nunito',sans-serif;font-size:.72rem;letter-spacing:1px;color:rgba(10,10,26,.65);font-weight:700;text-transform:uppercase;margin-top:2px}
-        .footer{margin-top:50px;text-align:center;color:rgba(255,255,255,.2);font-size:.75rem;letter-spacing:2px;font-family:'Cinzel',serif;animation:fadeUp 1.2s 1.2s ease both}
-        @media(max-width:480px){.countdown-grid{gap:8px}.countdown-unit{padding:16px 4px 12px;border-radius:12px}.countdown-word{font-size:.45rem;letter-spacing:2px}.cta-section{padding:0 16px}}
+        /* ═══════════════════════════════════════════
+           VARIABLES & RESET
+        ═══════════════════════════════════════════ */
+        :root {
+            --gold: #f5c842;
+            --gold2: #ffdf80;
+            --gold-dark: #c9922a;
+            --crimson: #8b1a1a;
+            --deep: #050508;
+            --ink: #0a0a16;
+            --white: #fff;
+            --cream: #f9f0dc;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--deep);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════
+           POSTER SCREEN (PANTALLA INICIAL)
+        ═══════════════════════════════════════════ */
+        #posterScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Fondo cinematográfico */
+        .poster-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 30%, rgba(139,26,26,0.35) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 80% at 20% 80%, rgba(245,200,66,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 70% at 80% 20%, rgba(30,20,60,0.8) 0%, transparent 70%),
+                linear-gradient(170deg, #0d0510 0%, #050305 40%, #0a0608 70%, #020208 100%);
+            z-index: 0;
+        }
+
+        /* Grain overlay */
+        .poster-grain {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 200px;
+        }
+
+        /* Rayos de luz superior */
+        .light-beams {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 70%;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .light-beams::before,
+        .light-beams::after {
+            content: '';
+            position: absolute;
+            top: -10%;
+            width: 3px;
+            height: 120%;
+            background: linear-gradient(to bottom, rgba(245,200,66,0.25), transparent);
+            filter: blur(4px);
+            animation: beamPulse 4s ease-in-out infinite alternate;
+        }
+        .light-beams::before { left: 30%; transform: rotate(-15deg); animation-delay: 0s; }
+        .light-beams::after  { left: 65%; transform: rotate(12deg);  animation-delay: 1.5s; }
+
+        @keyframes beamPulse {
+            from { opacity: 0.3; }
+            to   { opacity: 1; }
+        }
+
+        /* Cruz decorativa */
+        .cross-halo {
+            position: absolute;
+            top: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            text-align: center;
+            animation: floatHalo 5s ease-in-out infinite;
+        }
+        .cross-halo .cross-svg {
+            width: clamp(60px, 10vw, 110px);
+            filter: drop-shadow(0 0 30px rgba(245,200,66,0.7)) drop-shadow(0 0 60px rgba(245,200,66,0.3));
+        }
+        @keyframes floatHalo {
+            0%,100% { transform: translateX(-50%) translateY(0px); }
+            50%      { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* Contenido central del poster */
+        .poster-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 0 24px 0;
+            animation: posterReveal 1.4s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        @keyframes posterReveal {
+            from { opacity: 0; transform: translateY(50px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .poster-label {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+            font-weight: 600;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            animation: posterReveal 1.4s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+        .poster-church {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(0.75rem, 2vw, 1rem);
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            animation: posterReveal 1.4s 0.15s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+        .poster-title {
+            font-family: 'Bebas Neue', 'Cinzel', serif;
+            font-size: clamp(3.5rem, 13vw, 10rem);
+            line-height: 0.88;
+            letter-spacing: 4px;
+            color: var(--white);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            animation: posterReveal 1.4s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+            text-shadow:
+                0 0 80px rgba(245,200,66,0.25),
+                0 4px 40px rgba(0,0,0,0.8);
+        }
+        .poster-title span {
+            color: var(--gold);
+            display: block;
+        }
+
+        .poster-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-style: italic;
+            font-weight: 300;
+            color: rgba(255,255,255,0.65);
+            letter-spacing: 2px;
+            margin: 14px 0 28px;
+            animation: posterReveal 1.4s 0.3s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+        /* Líneas decorativas */
+        .poster-rule {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 18px auto 22px;
+            max-width: 500px;
+            animation: posterReveal 1.4s 0.35s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .poster-rule::before, .poster-rule::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(245,200,66,0.5), transparent);
+        }
+        .poster-rule span {
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+        }
+
+        /* INFO STRIP */
+        .poster-info-strip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(12px, 4vw, 40px);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            animation: posterReveal 1.4s 0.4s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .poster-info-item {
+            text-align: center;
+        }
+        .poster-info-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: rgba(245,200,66,0.5);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .poster-info-value {
+            font-family: 'Bebas Neue', serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            letter-spacing: 2px;
+            color: var(--white);
+        }
+        .poster-info-sep {
+            width: 1px;
+            height: 36px;
+            background: rgba(245,200,66,0.2);
+        }
+
+        /* ── COUNTDOWN ── */
+        .countdown-wrapper {
+            margin: 0 0 32px;
+            animation: posterReveal 1.4s 0.5s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .countdown-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.55rem, 1.2vw, 0.72rem);
+            letter-spacing: 6px;
+            color: rgba(245,200,66,0.6);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: clamp(8px, 2.5vw, 20px);
+        }
+        .countdown-unit {
+            position: relative;
+            background: linear-gradient(145deg, rgba(245,200,66,0.1), rgba(245,200,66,0.03));
+            border: 1px solid rgba(245,200,66,0.25);
+            border-radius: 12px;
+            padding: clamp(10px, 2.5vw, 18px) clamp(12px, 3vw, 26px);
+            min-width: clamp(60px, 14vw, 100px);
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 0 30px rgba(245,200,66,0.06),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+            overflow: hidden;
+        }
+        .countdown-unit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(245,200,66,0.05), transparent);
+        }
+        .countdown-num {
+            font-family: 'Bebas Neue', serif;
+            font-size: clamp(2.4rem, 6vw, 4.5rem);
+            line-height: 1;
+            color: var(--gold);
+            display: block;
+            text-shadow: 0 0 30px rgba(245,200,66,0.5);
+            position: relative;
+            z-index: 1;
+        }
+        .countdown-lbl {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.45rem, 1vw, 0.6rem);
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            display: block;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── CTA BUTTON ── */
+        .poster-cta-wrap {
+            margin-bottom: 40px;
+            animation: posterReveal 1.4s 0.6s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: clamp(16px, 3vw, 22px) clamp(30px, 6vw, 60px);
+            background: linear-gradient(135deg, #f5c842 0%, #e8a500 50%, #d4920a 100%);
+            color: #0a0508;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Bebas Neue', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            letter-spacing: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(245,200,66,0.3),
+                0 8px 40px rgba(245,200,66,0.4),
+                0 20px 60px rgba(245,200,66,0.15);
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            text-decoration: none;
+        }
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        .btn-cta:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 0 0 1px rgba(245,200,66,0.5), 0 12px 50px rgba(245,200,66,0.6), 0 30px 80px rgba(245,200,66,0.2); }
+        .btn-cta:hover::before { left: 100%; }
+        .btn-cta:active { transform: translateY(-1px) scale(1.01); }
+        .btn-cta-icon { font-size: 1.2em; }
+
+        /* Rating strip */
+        .poster-bottom-strip {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            padding: 14px 24px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            animation: posterReveal 1.4s 0.7s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .poster-rating {
+            font-family: 'Bebas Neue', serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.25);
+        }
+        .poster-stars {
+            color: var(--gold);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            opacity: 0.5;
+        }
+        .poster-org {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        /* Scan lines effect */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.015) 2px,
+                rgba(0,0,0,0.015) 4px
+            );
+            pointer-events: none;
+        }
+
+        /* Vignette */
+        .vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+            pointer-events: none;
+        }
+
+        /* ═══════════════════════════════════════════
+           FORM SCREEN
+        ═══════════════════════════════════════════ */
+        #formScreen {
+            display: none;
+            opacity: 0;
+            min-height: 100vh;
+        }
+        #formScreen.visible {
+            display: block;
+            animation: formFadeIn 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+        }
+        @keyframes formFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form bg */
+        .form-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, #1a2f7a 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, #3b1f6b 0%, transparent 55%),
+                radial-gradient(ellipse at 60% 80%, #0d1b4b 0%, transparent 60%),
+                #060614;
+            pointer-events: none;
+        }
+        .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        .particle {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+        .light-ray {
+            position: fixed;
+            width: 2px; height: 70vh;
+            background: linear-gradient(to bottom, transparent, rgba(245,200,66,0.12), transparent);
+            animation: rayPulse ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        @keyframes rayPulse { from { opacity: 0.3; } to { opacity: 1; } }
+
+        /* Back button */
+        .btn-back {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 20px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(245,200,66,0.1);
+            cursor: pointer;
+            border: none;
+            color: rgba(245,200,66,0.7);
+            font-family: 'Cinzel', serif;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: left;
+            transition: color 0.2s;
+        }
+        .btn-back:hover { color: var(--gold); }
+
+        .wrapper {
+            position: relative; z-index: 10;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 30px 20px;
+        }
+
+        /* ══ EVERYTHING BELOW IS THE ORIGINAL FORM STYLES ══ */
+        .hero {
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fadeDown 0.8s ease both;
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .logo-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .logo-img {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            object-fit: cover; object-position: center;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 30px rgba(245,200,66,0.5), 0 0 60px rgba(245,200,66,0.2);
+            animation: glowPulse 3s ease-in-out infinite;
+            display: block;
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(245,200,66,0.5), 0 0 60px rgba(245,200,66,0.2); }
+            50%       { box-shadow: 0 0 50px rgba(245,200,66,0.9), 0 0 100px rgba(245,200,66,0.4); }
+        }
+        .ring {
+            position: absolute; inset: -8px; border-radius: 50%;
+            border: 2px dashed rgba(245,200,66,0.4);
+            animation: spin 12s linear infinite;
+        }
+        .ring2 {
+            position: absolute; inset: -18px; border-radius: 50%;
+            border: 1px dashed rgba(245,200,66,0.2);
+            animation: spin 20s linear infinite reverse;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; margin-top: 4px; letter-spacing: 1px; }
+        .card {
+            width: 100%; max-width: 470px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.04) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245,200,66,0.25);
+            border-radius: 28px;
+            padding: 36px 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: fadeUp 0.9s 0.2s ease both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .divider {
+            display: flex; align-items: center; gap: 10px;
+            margin: 22px 0;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to right, transparent, rgba(245,200,66,0.4), transparent);
+        }
+        .divider span { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; }
+        .field { margin-bottom: 20px; }
+        .field label {
+            display: block; font-weight: 700; font-size: 0.82rem;
+            color: var(--gold2); margin-bottom: 8px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+        }
+        .field input, .field textarea, .field select {
+            width: 100%; padding: 14px 18px;
+            background: rgba(255,255,255,0.07);
+            border: 1.5px solid rgba(255,255,255,0.15);
+            border-radius: 14px; color: #fff;
+            font-family: 'Nunito', sans-serif; font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+            outline: none;
+        }
+        .field select {
+            appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5c842' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 16px center; cursor: pointer;
+        }
+        .field select option { background: #1a1a3e; color: #fff; }
+        .field select option:first-child { color: rgba(255,255,255,0.4); }
+        .field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,0.3); }
+        .field input:focus, .field textarea:focus, .field select:focus {
+            border-color: var(--gold);
+            background: rgba(245,200,66,0.08);
+            box-shadow: 0 0 0 3px rgba(245,200,66,0.15);
+        }
+        .field textarea { resize: none; }
+        .mood-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; margin-top: 4px;
+        }
+        .mood-option { position: relative; }
+        .mood-option input[type="radio"] { display: none; }
+        .mood-option label {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 6px; padding: 14px 6px 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 16px; cursor: pointer;
+            transition: all 0.25s; text-transform: none; letter-spacing: 0;
+            color: rgba(255,255,255,0.6); font-size: 0.7rem; font-weight: 700;
+        }
+        .mood-option label .emoji { font-size: 2rem; transition: transform 0.3s; line-height: 1; }
+        .mood-option label:hover { border-color: rgba(245,200,66,0.5); background: rgba(245,200,66,0.1); transform: translateY(-3px); }
+        .mood-option label:hover .emoji { transform: scale(1.25) rotate(-5deg); }
+        .mood-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, rgba(245,200,66,0.25), rgba(245,200,66,0.1));
+            border-color: var(--gold); color: var(--gold2);
+            box-shadow: 0 4px 20px rgba(245,200,66,0.25);
+        }
+        .mood-option input[type="radio"]:checked + label .emoji { transform: scale(1.3) rotate(-5deg); animation: bounce 0.4s ease; }
+        @keyframes bounce {
+            0%  { transform: scale(1); }
+            50% { transform: scale(1.5) rotate(-10deg); }
+            100%{ transform: scale(1.3) rotate(-5deg); }
+        }
+        .btn-submit {
+            width: 100%; margin-top: 26px; padding: 18px;
+            background: linear-gradient(135deg, #f5c842 0%, #e5a800 100%);
+            color: #0a0a1a; border: none; border-radius: 16px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.05rem; font-weight: 700;
+            cursor: pointer; letter-spacing: 1px;
+            transition: all 0.3s;
+            box-shadow: 0 6px 30px rgba(245,200,66,0.4);
+            position: relative; overflow: hidden;
+        }
+        .btn-submit::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            transition: left 0.5s;
+        }
+        .btn-submit:hover::before { left: 100%; }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(245,200,66,0.6); }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .success-msg {
+            display: none; text-align: center;
+            animation: popIn 0.5s ease; padding: 10px 0;
+        }
+        @keyframes popIn {
+            0%  { opacity: 0; transform: scale(0.8); }
+            70% { transform: scale(1.05); }
+            100%{ opacity: 1; transform: scale(1); }
+        }
+        .success-msg .big-emoji { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+        .success-msg h2 { font-family: 'Cinzel Decorative', serif; color: var(--gold); font-size: 1.3rem; margin-bottom: 8px; }
+        .success-msg p { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.6; }
+        .footer {
+            margin-top: 20px; text-align: center;
+            color: rgba(255,255,255,0.3); font-size: 0.78rem; letter-spacing: 1px;
+            animation: fadeUp 1s 0.5s ease both;
+        }
+        @media (max-width: 400px) {
+            .card { padding: 28px 20px; }
+            .logo-img { width: 130px; height: 130px; }
+            .mood-grid { gap: 7px; }
+            .mood-option label { padding: 10px 4px 8px; font-size: 0.65rem; }
+            .mood-option label .emoji { font-size: 1.7rem; }
+        }
+
+        /* Visitante nuevo */
+        #seccionNuevoVisitante {
+            background: linear-gradient(145deg,rgba(245,200,66,.07),rgba(245,200,66,.02));
+            border: 1px solid rgba(245,200,66,.25);
+            border-radius: 18px; padding: 22px 18px; margin-bottom: 20px;
+            animation: fadeUp .4s ease both;
+        }
     </style>
 </head>
 <body>
-<div class="bg-cinematic"></div>
-<div class="vignette"></div>
-<div class="grain"></div>
-<div class="particles" id="particles"></div>
-<div class="light-ray" style="left:12%;top:0;animation-duration:5s;"></div>
-<div class="light-ray" style="left:50%;top:8%;animation-duration:7s;animation-delay:1.5s;"></div>
-<div class="light-ray" style="right:14%;top:3%;animation-duration:6s;animation-delay:.8s;"></div>
-<div class="light-ray" style="left:30%;top:0;animation-duration:9s;animation-delay:3s;opacity:.5;"></div>
 
-<div class="page-wrapper">
-    <header class="hero-cinema">
-        <div class="credit-line"><span class="credit-text">Voz de Cristo · Jóvenes · Presenta</span></div>
-        <div class="logo-cinema">
-            <img src="logo-voz-de-cristo (1).png" alt="Voz de Cristo">
-            <div class="logo-ring"></div><div class="logo-ring2"></div>
+<!-- ══════════════════════════════════════════════
+     POSTER SCREEN
+══════════════════════════════════════════════ -->
+<section id="posterScreen">
+    <div class="poster-bg"></div>
+    <div class="poster-grain"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="light-beams"></div>
+
+    <!-- Cruz flotante -->
+    <div class="cross-halo">
+        <svg class="cross-svg" viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="0" width="20" height="140" rx="4" fill="url(#goldGrad)" opacity="0.9"/>
+            <rect x="0" y="38" width="100" height="20" rx="4" fill="url(#goldGrad)" opacity="0.9"/>
+            <defs>
+                <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffdf80"/>
+                    <stop offset="100%" stop-color="#c9922a"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+
+    <!-- Contenido del poster -->
+    <div class="poster-content">
+        <p class="poster-church">✦ Voz de Cristo — Grupo Juvenil ✦</p>
+        <p class="poster-label">Presenta · Un Retiro Espiritual Juvenil</p>
+
+        <h1 class="poster-title">
+            Fuego<br>
+            <span>Vivo</span>
+        </h1>
+
+        <p class="poster-tagline">"Jóvenes que no apagan la llama del Espíritu"</p>
+
+        <div class="poster-rule"><span>✦</span></div>
+
+        <!-- Info strip -->
+        <div class="poster-info-strip">
+            <div class="poster-info-item">
+                <span class="poster-info-label">Fecha</span>
+                <span class="poster-info-value">18 Jul · 2026</span>
+            </div>
+            <div class="poster-info-sep"></div>
+            <div class="poster-info-item">
+                <span class="poster-info-label">Hora</span>
+                <span class="poster-info-value">6:00 AM</span>
+            </div>
+            <div class="poster-info-sep"></div>
+            <div class="poster-info-item">
+                <span class="poster-info-label">Lugar</span>
+                <span class="poster-info-value">Por Confirmar</span>
+            </div>
         </div>
-        <p class="pre-title">El evento que marcará tu historia</p>
-        <h1 class="main-title">RETIRO<br>2026</h1>
-        <p class="subtitle-title">Jóvenes Haciendo Lío</p>
-        <div class="hero-divider"><span>✦</span></div>
-        <div class="date-banner">
-            <span>18</span><div class="date-dot"></div><span>Julio</span>
-            <div class="date-dot"></div><span>2026</span><div class="date-dot"></div><span>06:00 AM</span>
+
+        <!-- COUNTDOWN -->
+        <div class="countdown-wrapper">
+            <p class="countdown-subtitle">✦ Faltan para el Gran Día ✦</p>
+            <div class="countdown-grid">
+                <div class="countdown-unit">
+                    <span class="countdown-num" id="cdDias">00</span>
+                    <span class="countdown-lbl">Días</span>
+                </div>
+                <div class="countdown-unit">
+                    <span class="countdown-num" id="cdHoras">00</span>
+                    <span class="countdown-lbl">Horas</span>
+                </div>
+                <div class="countdown-unit">
+                    <span class="countdown-num" id="cdMin">00</span>
+                    <span class="countdown-lbl">Min</span>
+                </div>
+                <div class="countdown-unit">
+                    <span class="countdown-num" id="cdSeg">00</span>
+                    <span class="countdown-lbl">Seg</span>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <section class="countdown-section">
-        <p class="countdown-label">— faltan —</p>
-        <div class="countdown-grid">
-            <div class="countdown-unit"><span class="countdown-number" id="cd-days">000</span><span class="countdown-word">Días</span></div>
-            <div class="countdown-unit"><span class="countdown-number" id="cd-hours">00</span><span class="countdown-word">Horas</span></div>
-            <div class="countdown-unit"><span class="countdown-number" id="cd-mins">00</span><span class="countdown-word">Minutos</span></div>
-            <div class="countdown-unit"><span class="countdown-number" id="cd-secs">00</span><span class="countdown-word">Segundos</span></div>
+        <!-- CTA -->
+        <div class="poster-cta-wrap">
+            <button class="btn-cta" onclick="mostrarFormulario()">
+                <span class="btn-cta-icon">✝</span>
+                ¡Confirmar mi Asistencia Ahora!
+            </button>
         </div>
-    </section>
+    </div>
 
-    <section class="cta-section">
-        <a href="asistencia.html" class="cta-btn">
-            <span class="cta-inner">
-                <span class="cta-icon">✝️</span>
-                <span class="cta-text-wrap">
-                    <span class="cta-main-text">¡Confirmar mi Asistencia ahora!</span>
-                    <span class="cta-sub-text">Toca aquí · Solo los sábados · No te quedes fuera</span>
-                </span>
-            </span>
-        </a>
-    </section>
+    <!-- Bottom strip -->
+    <div class="poster-bottom-strip">
+        <span class="poster-rating">RETIRO · 2026</span>
+        <span class="poster-stars">★ ★ ★ ★ ★</span>
+        <span class="poster-org">Jóvenes Haciendo Lío</span>
+    </div>
+</section>
 
-    <footer class="footer">Voz de Cristo © 2026 &nbsp;·&nbsp; Con ❤️ para el grupo</footer>
-</div>
+
+<!-- ══════════════════════════════════════════════
+     FORM SCREEN
+══════════════════════════════════════════════ -->
+<section id="formScreen">
+    <div class="form-bg"></div>
+    <div class="particles" id="particles"></div>
+    <div class="light-ray" style="left:15%;top:0;animation-duration:4s;"></div>
+    <div class="light-ray" style="left:50%;top:10%;animation-duration:6s;animation-delay:1s;"></div>
+    <div class="light-ray" style="right:18%;top:5%;animation-duration:5s;animation-delay:2s;"></div>
+
+    <button class="btn-back" onclick="volverAlPoster()">
+        ← Volver al Retiro
+    </button>
+
+    <div class="wrapper">
+        <div class="hero">
+            <div class="logo-wrap">
+                <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/wAARCAJkAxgDASIAAhEBAxEB/8QAHQABAAIDAQEBAQAAAAAAAAAAAAcIBQYJBAMBAv/EAGQQAAEDAwIDBQIGCQ0LCgUDBQEAAgMEBREGBwgSIRMxQVFhInEJFDJCgZEVI1JicoKSodEWFyQzNjdVdKKxsrPBGDhDU1Zjc4OUtNI1R1d2hIWTlcTTJTRUdaOkwuEmRMPU8P/EABwBAQABBQEBAAAAAAAAAAAAAAAGAgMEBQcBCP/EADwRAQABAwICBgcGBQUBAQEAAAABAgMEBREhMQYSQVGBsRNhcZGhwdEUIjJScvAWMzRC4QcjNVOSYsLx/9oADAMBAAIRAxEAPwCmSIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIg9Vpt9bdrpS2u200lVW1czYKeGMZdI9xAa0epJC6HbC8MWi9EWemrtV22j1JqR7Q+aSqjEtPTO7+SKN3snB+e4EkjI5R0Vevg+NHNvu71Vqapg7Sl09RmRjiMgVE2WR/yO1I9QFYzjT3XuO2m3tLRafqPi99vsr4KecfKp4WAGWRv33tMaD4c2e8IJjqbhpqysFvqK20W1pb0p5JY4gW93ySR0Xluej9F36n/+JaXsF0heOhnoIZmuH0tK5G1lVU1tXLV1lRNU1Ezi+WWV5e97j3kk9SfUrN6N1vq/R1W2q0vqS52mQHJbTVDmsd+Ez5Lh6EFB0J1rws7O6kje6CwzWGqdk9vaqgx4/wBW7mjx7mhVq3Z4QNc6ZiluGj6uPVdAzLjCxnY1jB/oySH/AIpyfuVuGzXGXUxyxWzdG3NmiOGi7W+LD2+ssI6HzJZjHg0q4Omb/ZdTWWC86fulLc7fUDMdRTSB7D5jp3EdxB6g96Dj/W0tTRVctHWU81NUwvLJYZWFj43A4LXNPUEeRXxXULfnYrR+7Fuklradtt1AxnLTXaBg7QYHRsg/wjPQ9R4ELnduztvqrbLU77FqehMTjl1NUx5dBVMz8uN3j6g4I8QEGnIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIi2bavSdTrrcWxaSpeYPuVYyJ72jJji+VI/8Vgc76EF++BnRh0rsVRXCoiDK3UEzrjISOoiIDYRny5Gh4/DKg74Sd1Wde6Ua9rviYtchiPgZDKef8wjV4bfSU1BQU9BRwthpqaJsMMbe5jGgBoHuAAVV/hJLEKnQWl9RtZl1BcpKRxHg2ePm6+mYB9fqgosiIgLdtpN0dY7YXz7J6Wuboo3kfGaKXL6apA8Hsz3+Thhw8CFpKIOn+wG++kt2reIKV4teoYmc1Lap5AX48XxO6doz1ABHiBkE7ruPofTO4OmJ9PaptsdbRye0x3dJA/wkjd3tcPMeBIOQSFyVtVwr7Tcqe5Wysnoq2meJIZ4JCx8bh3EEdQVfLhY4mqTW3xXR+u5oKLUpxHS1mAyG4HuAPgyU+Xc492DhqCrfENsfqTaO95nD7jp6peRRXRjMNPj2cgHyJPTudjI8QInXYfUtjtGpbFV2O/W+C4W2sj7Oenmblrx/OCDggjqCARghc6+KDh/u21VzkvNpEtw0jUy4gqe+SkJ7opv5g/uPoeiCDEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBVSREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMfCrtxX7j70UNkppvh7TGJLpVNHtQwdxDT3F5Ga0eWVabvbwx7a7X6l+J6h1u4W0t5nGK3OzG7qA1gPVoAJJ6Bc59gdFxbj7xVdhroBNFa2C7Vbb0DmMcezz5Okx9Cmp8Iq7Sk3P1bqq7WqGptlFVs+LU8w5aipczmDiPEAZAHm8+SjMxuwWZNq4iqJpo2mHy19q9Lr9ybhUbaXjX6p6iIi2riIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiA=" alt="Voz de Cristo" class="logo-img">
+                <div class="ring"></div>
+                <div class="ring2"></div>
+            </div>
+            <div class="subtitle">✦ Jóvenes haciendo lío ✦</div>
+        </div>
+
+        <div class="card">
+            <div id="formSection">
+                <div class="divider"><span>✦ Registro de Asistencia ✦</span></div>
+
+                <form id="asistenciaForm">
+                    <!-- MES -->
+                    <div class="field">
+                        <label>📅 Mes del grupo</label>
+                        <div style="display:flex;align-items:center;gap:10px;background:rgba(245,200,66,.07);border:1.5px solid rgba(245,200,66,.4);border-radius:14px;padding:14px 18px;">
+                            <span style="font-size:1.1rem;">🔒</span>
+                            <span id="mesLabel" style="color:var(--gold2);font-weight:800;font-size:1rem;flex:1;"></span>
+                        </div>
+                        <input type="hidden" name="mes" id="mesVal">
+                        <p style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:5px;padding-left:2px;">Solo puedes registrar el mes en curso.</p>
+                    </div>
+
+                    <!-- SÁBADO -->
+                    <div class="field" id="wrapSabado">
+                        <label>🗓️ Sábado de asistencia</label>
+                        <div style="display:flex;align-items:center;gap:10px;background:rgba(245,200,66,.07);border:1.5px solid rgba(245,200,66,.4);border-radius:14px;padding:14px 18px;">
+                            <span style="font-size:1.1rem;">🔒</span>
+                            <span id="sabadoLabel" style="color:var(--gold2);font-weight:800;font-size:1rem;flex:1;"></span>
+                        </div>
+                        <input type="hidden" name="sabado" id="sabadoVal">
+                        <p id="sabadoAviso" style="font-size:.72rem;color:rgba(255,200,66,.55);margin-top:5px;padding-left:2px;"></p>
+                    </div>
+
+                    <!-- NOMBRE -->
+                    <div class="field">
+                        <label>¿Quién eres?</label>
+                        <select name="nombre" id="selNombre" required onchange="checkNombreEnLista(this)">
+                            <option value="" disabled selected>— Selecciona tu nombre —</option>
+                            <option value="__nuevo__">🆕 Mi nombre no está en la lista</option>
+                            <option>Andres Felipe Escobar</option>
+                            <option>Anny Gisella Ordoñez</option>
+                            <option>Cristian David Ramirez</option>
+                            <option>Cristian Felipe Jimenez</option>
+                            <option>Cristian Camilo Hurtado</option>
+                            <option>Claudia Ximena Sanchez</option>
+                            <option>Daniel Garcia Gómez</option>
+                            <option>Deysi Lorenny Estupiñan</option>
+                            <option>Duber Giovanny Muñoz</option>
+                            <option>Diego Lopez Miranda</option>
+                            <option>David Ferndado Lopez</option>
+                            <option>Eimy Liseth Cifuentes</option>
+                            <option>Erick Lopez</option>
+                            <option>Jose Miguel Garcia</option>
+                            <option>Jose Luiz Valencia</option>
+                            <option>Jean Paul Claros</option>
+                            <option>Juan David Ceballos</option>
+                            <option>Juan Esteban Barona Riascos</option>
+                            <option>Jean Paul Rivera</option>
+                            <option>Laura Marcela Escobar</option>
+                            <option>Luisa Fernanda Bermúdez</option>
+                            <option>Miguel Angel Jimenez</option>
+                            <option>Melissa Peláez Ceballos</option>
+                            <option>Michael Steven Acuña</option>
+                            <option>Maria Camila Benitez</option>
+                            <option>Meilly Martinez Vargaz</option>
+                            <option>Samuel Alejandro Garcés</option>
+                            <option>Sergio José Reyes suarez</option>
+                            <option>Sarah Salazar Cruz</option>
+                            <option>Sofia Martinez</option>
+                            <option>Santiago Gonzales</option>
+                            <option>Victoria Elena Marin</option>
+                            <option>Wilmar Esteban Quintero</option>
+                            <option>Wuilmarys Daniela Marquez</option>
+                        </select>
+                    </div>
+
+                    <!-- NUEVO VISITANTE -->
+                    <div id="seccionNuevoVisitante" style="display:none;">
+                        <p style="font-size:.78rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">✦ Cuéntanos un poco sobre ti ✦</p>
+                        <div class="field">
+                            <label>📝 Nombre completo</label>
+                            <input type="text" id="visitanteNombre" placeholder="Tu nombre y apellido">
+                        </div>
+                        <div class="field">
+                            <label>🎂 Fecha de nacimiento</label>
+                            <input type="date" id="visitanteFecha" style="color-scheme:dark;">
+                        </div>
+                        <div class="field">
+                            <label>🏠 ¿De dónde vienes?</label>
+                            <select id="visitanteOrigen" onchange="toggleOrigenOtro(this)">
+                                <option value="" disabled selected>— ¿Cómo llegaste? —</option>
+                                <option value="Invitación de un amigo del grupo">Invitación de un amigo del grupo</option>
+                                <option value="La parroquia me invitó">La parroquia me invitó</option>
+                                <option value="Redes sociales / Instagram">Redes sociales / Instagram</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="field" id="wrapOtroOrigen" style="display:none;">
+                            <label>✍️ Cuéntanos cómo llegaste</label>
+                            <input type="text" id="visitanteOrigenOtro" placeholder="Ej: vi un cartel, pasé por la iglesia...">
+                        </div>
+                    </div>
+
+                    <!-- ESTADO DE ÁNIMO -->
+                    <div class="field">
+                        <label>¿Cómo te sientes hoy?</label>
+                        <div class="mood-grid">
+                            <div class="mood-option"><input type="radio" name="sentimiento" id="m1" value="Bendecido"><label for="m1"><span class="emoji">🙏</span>Bendecido</label></div>
+                            <div class="mood-option"><input type="radio" name="sentimiento" id="m2" value="Feliz"><label for="m2"><span class="emoji">😊</span>Feliz</label></div>
+                            <div class="mood-option"><input type="radio" name="sentimiento" id="m3" value="Cansado"><label for="m3"><span class="emoji">😴</span>Cansado</label></div>
+                            <div class="mood-option"><input type="radio" name="sentimiento" id="m4" value="Necesito oración"><label for="m4"><span class="emoji">🥺</span>Oración</label></div>
+                        </div>
+                    </div>
+
+                    <!-- COMENTARIO -->
+                    <div class="field">
+                        <label>¿Algo que quieras compartir?</label>
+                        <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo... 💬"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btnEnviar">¡Presente! ✝️</button>
+                </form>
+            </div>
+
+            <div class="success-msg" id="successMsg">
+                <span class="big-emoji">🎉</span>
+                <h2>¡Registrado!</h2>
+                <p>Dios te bendiga enormemente.<br>¡Qué alegría tenerte hoy aquí con nosotros!</p>
+                <p id="successDetalle" style="margin-top:10px;font-size:.82rem;color:rgba(245,200,66,.85);font-weight:700;letter-spacing:.5px;"></p>
+                <button onclick="corregirRegistro()" style="margin-top:22px;background:transparent;border:1.5px solid rgba(255,255,255,.25);border-radius:12px;color:rgba(255,255,255,.5);font-family:Nunito,sans-serif;font-size:.8rem;padding:10px 20px;cursor:pointer;transition:all .3s;">
+                    ✏️ Me equivoqué de nombre — corregir
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">Voz de Cristo © 2025 — Con ❤️ para el grupo</div>
+    </div>
+</section>
+
 
 <script>
-(function(){
-    const c=document.getElementById('particles');
-    for(let i=0;i<50;i++){
-        const p=document.createElement('div'); p.classList.add('particle');
-        p.style.left=Math.random()*100+'vw';
-        if(Math.random()>.65){p.style.borderRadius='0';p.style.background='transparent';p.style.width='10px';p.style.height='10px';p.style.fontSize='10px';p.style.color='rgba(245,200,66,.45)';p.style.display='flex';p.style.alignItems='center';p.textContent=['✦','✝','✶','·'][Math.floor(Math.random()*4)];}
-        else{const sz=(Math.random()*2.5+.8)+'px';p.style.width=sz;p.style.height=sz;}
-        p.style.animationDuration=(Math.random()*14+8)+'s';
-        p.style.animationDelay=(Math.random()*12)+'s';
-        c.appendChild(p);
+// ══════════════════════════════════════════
+//  COUNTDOWN
+// ══════════════════════════════════════════
+const TARGET = new Date('2026-07-18T06:00:00');
+
+function updateCountdown() {
+    const now  = new Date();
+    const diff = TARGET - now;
+    if (diff <= 0) {
+        document.getElementById('cdDias').textContent  = '00';
+        document.getElementById('cdHoras').textContent = '00';
+        document.getElementById('cdMin').textContent   = '00';
+        document.getElementById('cdSeg').textContent   = '00';
+        return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000)  / 60000);
+    const s = Math.floor((diff % 60000)    / 1000);
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('cdDias').textContent  = pad(d);
+    document.getElementById('cdHoras').textContent = pad(h);
+    document.getElementById('cdMin').textContent   = pad(m);
+    document.getElementById('cdSeg').textContent   = pad(s);
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ══════════════════════════════════════════
+//  NAVEGACIÓN: Poster → Formulario
+// ══════════════════════════════════════════
+function mostrarFormulario() {
+    const poster = document.getElementById('posterScreen');
+    const form   = document.getElementById('formScreen');
+    poster.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    poster.style.opacity    = '0';
+    poster.style.transform  = 'scale(1.04)';
+    setTimeout(() => {
+        poster.style.display = 'none';
+        form.style.display   = 'block';
+        setTimeout(() => form.classList.add('visible'), 20);
+        window.scrollTo(0,0);
+    }, 700);
+}
+
+function volverAlPoster() {
+    const poster = document.getElementById('posterScreen');
+    const form   = document.getElementById('formScreen');
+    form.classList.remove('visible');
+    setTimeout(() => {
+        form.style.display  = 'none';
+        poster.style.display = 'flex';
+        poster.style.opacity = '0';
+        poster.style.transform = 'scale(1.04)';
+        setTimeout(() => {
+            poster.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            poster.style.opacity    = '1';
+            poster.style.transform  = 'scale(1)';
+        }, 20);
+    }, 400);
+}
+
+// ══════════════════════════════════════════
+//  PARTÍCULAS
+// ══════════════════════════════════════════
+const container = document.getElementById('particles');
+for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+    p.style.animationDuration = (Math.random() * 12 + 8) + 's';
+    p.style.animationDelay    = (Math.random() * 10) + 's';
+    if (Math.random() > 0.7) {
+        p.style.borderRadius = '0';
+        p.style.background   = 'transparent';
+        p.style.width = '8px'; p.style.height = '8px';
+        p.style.fontSize = '10px';
+        p.style.color = 'rgba(245,200,66,0.5)';
+        p.style.display = 'flex';
+        p.style.alignItems = 'center';
+        p.textContent = '✦';
+    }
+    container.appendChild(p);
+}
+
+// ══════════════════════════════════════════
+//  AUTODETECCIÓN DE MES Y SÁBADO
+// ══════════════════════════════════════════
+const NOMBRES_MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const NOMBRES_MESES_ES_MIN = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function calcularSabadoReunion() {
+    const hoy = new Date();
+    const dow = hoy.getDay();
+    const copia = new Date(hoy);
+    if (dow !== 6) {
+        const dias = (6 - dow + 7) % 7 || 7;
+        copia.setDate(hoy.getDate() + dias);
+    }
+    copia.setHours(0,0,0,0);
+    return copia;
+}
+
+(function setearFechasAutomaticas() {
+    const sabado    = calcularSabadoReunion();
+    const dia       = sabado.getDate();
+    const mesIdx    = sabado.getMonth();
+    const anio      = sabado.getFullYear();
+    const mesNombre = NOMBRES_MESES[mesIdx];
+    const mesMin    = NOMBRES_MESES_ES_MIN[mesIdx];
+    const mesConMay = mesMin.charAt(0).toUpperCase() + mesMin.slice(1);
+
+    const valorSabado = `${dia} de ${mesConMay} ${anio}`;
+    const labelSabado = `Sábado ${dia} de ${mesMin}`;
+
+    document.getElementById('mesVal').value    = mesNombre;
+    document.getElementById('sabadoVal').value = valorSabado;
+    document.getElementById('mesLabel').textContent    = `📅 ${mesNombre} ${anio}`;
+    document.getElementById('sabadoLabel').textContent = `🗓️ ${labelSabado}`;
+
+    const hoy = new Date();
+    if (hoy.getDay() !== 6) {
+        const faltan = (6 - hoy.getDay() + 7) % 7 || 7;
+        document.getElementById('sabadoAviso').textContent =
+            `ℹ️ Hoy no es sábado — registro para el próximo (faltan ${faltan} día${faltan!==1?'s':''}).`;
+        const form = document.getElementById('asistenciaForm');
+        const elementos = form.querySelectorAll('input, select, textarea, button');
+        elementos.forEach(el => {
+            el.disabled = true;
+            el.style.opacity = '0.4';
+            el.style.cursor  = 'not-allowed';
+        });
+        const aviso = document.createElement('div');
+        aviso.style.cssText = 'background:rgba(245,200,66,.08);border:1.5px solid rgba(245,200,66,.3);border-radius:16px;padding:18px 20px;margin-bottom:20px;text-align:center;';
+        aviso.innerHTML = `<span style="font-size:2rem;">🔒</span><p style="color:rgba(245,200,66,.9);font-weight:800;margin:8px 0 4px;font-size:.95rem;">Registro solo disponible los sábados</p><p style="color:rgba(255,255,255,.5);font-size:.8rem;">Faltan ${faltan} día${faltan!==1?'s':''} para el próximo sábado</p>`;
+        form.insertBefore(aviso, form.firstChild);
     }
 })();
-(function(){
-    const T=new Date('2026-07-18T06:00:00').getTime();
-    function pad(n,l){return String(n).padStart(l||2,'0')}
-    function tick(){
-        const d=T-Date.now();
-        if(d<=0){['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id=>document.getElementById(id).textContent=id==='cd-days'?'000':'00');return;}
-        document.getElementById('cd-days').textContent=pad(Math.floor(d/86400000),3);
-        document.getElementById('cd-hours').textContent=pad(Math.floor((d%86400000)/3600000));
-        document.getElementById('cd-mins').textContent=pad(Math.floor((d%3600000)/60000));
-        document.getElementById('cd-secs').textContent=pad(Math.floor((d%60000)/1000));
+
+// ══════════════════════════════════════════
+//  VISITANTE NUEVO
+// ══════════════════════════════════════════
+function toggleOrigenOtro(select) {
+    const wrap  = document.getElementById('wrapOtroOrigen');
+    const input = document.getElementById('visitanteOrigenOtro');
+    if (select.value === 'Otro') {
+        wrap.style.display = 'block';
+        input.required = true;
+    } else {
+        wrap.style.display = 'none';
+        input.required = false;
+        input.value = '';
     }
-    tick();setInterval(tick,1000);
-})();
-if('serviceWorker'in navigator)navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+}
+
+function checkNombreEnLista(select) {
+    const seccion = document.getElementById('seccionNuevoVisitante');
+    if (select.value === '__nuevo__') {
+        seccion.style.display = 'block';
+        document.getElementById('visitanteNombre').required = true;
+        document.getElementById('visitanteFecha').required  = true;
+        document.getElementById('visitanteOrigen').required = true;
+    } else {
+        seccion.style.display = 'none';
+        document.getElementById('visitanteNombre').required = false;
+        document.getElementById('visitanteFecha').required  = false;
+        document.getElementById('visitanteOrigen').required = false;
+    }
+}
+
+// ══════════════════════════════════════════
+//  FORMULARIO — ANTI-DUPLICADO
+// ══════════════════════════════════════════
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx2pXLdUlSdw4K1my9drSCAF6fhM1RnDOuldsDRHcdJyrzR5HvnYn-1cY2qYaaawBKC5Q/exec';
+const form = document.getElementById('asistenciaForm');
+
+function claveRegistro() {
+    return 'registrado_' + document.getElementById('sabadoVal').value.replace(/\s/g,'_');
+}
+function yaRegistrado()  { try { return localStorage.getItem(claveRegistro()) === '1'; } catch(e) { return false; } }
+function marcarRegistrado() { try { localStorage.setItem(claveRegistro(), '1'); } catch(e) {} }
+function borrarRegistro()   { try { localStorage.removeItem(claveRegistro()); } catch(e) {} }
+
+function corregirRegistro() {
+    borrarRegistro();
+    document.getElementById('successMsg').style.display  = 'none';
+    document.getElementById('formSection').style.display = 'block';
+    form.reset();
+    document.getElementById('seccionNuevoVisitante').style.display = 'none';
+    const btn = document.getElementById('btnEnviar');
+    btn.disabled    = false;
+    btn.textContent = '¡Presente! ✝️';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (yaRegistrado()) {
+        const sabadoGuardado = document.getElementById('sabadoVal').value;
+        const mesGuardado    = document.getElementById('mesVal').value;
+        document.getElementById('formSection').style.display = 'none';
+        document.getElementById('successMsg').style.display  = 'block';
+        const det = document.getElementById('successDetalle');
+        if (det) det.textContent = `📅 Ya registrado: ${sabadoGuardado} (${mesGuardado})`;
+    }
+});
+
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    const selNombre = document.getElementById('selNombre');
+    const esNuevo   = selNombre.value === '__nuevo__';
+
+    if (esNuevo) {
+        const nombre       = document.getElementById('visitanteNombre').value.trim();
+        const fecha        = document.getElementById('visitanteFecha').value;
+        const origenSelVal = document.getElementById('visitanteOrigen').value;
+        const origenOtroVal= document.getElementById('visitanteOrigenOtro').value.trim();
+        if (!nombre || !fecha || !origenSelVal) { alert('Por favor completa todos los campos de visitante nuevo.'); return; }
+        if (origenSelVal === 'Otro' && !origenOtroVal) { alert('Por favor describe cómo llegaste al grupo.'); return; }
+    }
+
+    const btn = document.getElementById('btnEnviar');
+    btn.disabled    = true;
+    btn.textContent = '⏳ Registrando...';
+
+    const formData = new FormData(form);
+
+    if (esNuevo) {
+        const nombre      = document.getElementById('visitanteNombre').value.trim();
+        const fecha       = document.getElementById('visitanteFecha').value;
+        const origenSelect= document.getElementById('visitanteOrigen').value;
+        const origenOtro  = document.getElementById('visitanteOrigenOtro').value.trim();
+        const origen      = origenSelect === 'Otro' ? `Otro: ${origenOtro}` : origenSelect;
+        formData.set('nombre', `${nombre} (NUEVO)`);
+        formData.set('visitante_nombre', nombre);
+        formData.set('visitante_fecha_nac', fecha);
+        formData.set('visitante_origen', origen);
+    }
+
+    const mesGuardado    = document.getElementById('mesVal').value;
+    const sabadoGuardado = document.getElementById('sabadoVal').value;
+
+    fetch(scriptURL, { method: 'POST', body: formData })
+        .then(() => {
+            marcarRegistrado();
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('successMsg').style.display  = 'block';
+            const det = document.getElementById('successDetalle');
+            if (det) det.textContent = `📅 Registrado para: ${sabadoGuardado} (${mesGuardado})`;
+            form.reset();
+            document.getElementById('seccionNuevoVisitante').style.display = 'none';
+        })
+        .catch(() => {
+            alert('Hubo un error al conectar. Inténtalo de nuevo.');
+            btn.disabled    = false;
+            btn.textContent = '¡Presente! ✝️';
+        });
+});
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Registro de asistencia listo'))
+        .catch(err => console.error('Error:', err));
+}
 </script>
 </body>
 </html>
