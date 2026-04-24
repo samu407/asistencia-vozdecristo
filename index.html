@@ -650,6 +650,113 @@
             border-radius: 18px; padding: 22px 18px; margin-bottom: 20px;
             animation: fadeUp .4s ease both;
         }
+
+        /* ── ADMIN BUTTON ── */
+        .btn-admin-float {
+            position: fixed;
+            bottom: 22px; right: 22px;
+            z-index: 9999;
+            background: rgba(10,10,26,0.85);
+            border: 1px solid rgba(245,200,66,0.25);
+            border-radius: 50px;
+            padding: 10px 18px;
+            color: rgba(245,200,66,0.55);
+            font-family: 'Cinzel', serif;
+            font-size: 0.62rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            backdrop-filter: blur(14px);
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 7px;
+        }
+        .btn-admin-float:hover {
+            border-color: rgba(245,200,66,0.6);
+            color: var(--gold);
+            box-shadow: 0 4px 20px rgba(245,200,66,0.15);
+        }
+        .btn-admin-float .lock-icon { font-size: 0.9rem; }
+
+        /* ── ADMIN MODAL OVERLAY ── */
+        #adminOverlay {
+            display: none;
+            position: fixed; inset: 0;
+            z-index: 99999;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            align-items: center; justify-content: center;
+        }
+        #adminOverlay.open { display: flex; animation: fadeIn .3s ease; }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+        .admin-modal {
+            background: linear-gradient(145deg, #0e0e24, #080814);
+            border: 1px solid rgba(245,200,66,0.3);
+            border-radius: 24px;
+            padding: 36px 32px;
+            width: 100%; max-width: 400px;
+            margin: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(245,200,66,0.07);
+            animation: slideUp .4s cubic-bezier(0.22,1,0.36,1);
+        }
+        @keyframes slideUp {
+            from { opacity:0; transform:translateY(30px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .admin-modal-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1rem; font-weight: 700;
+            color: var(--gold); text-align: center;
+            margin-bottom: 6px;
+        }
+        .admin-modal-sub {
+            font-size: 0.75rem; color: rgba(255,255,255,0.4);
+            text-align: center; margin-bottom: 26px;
+            letter-spacing: 1px;
+        }
+        .admin-modal .field label { font-size: 0.75rem; }
+        .admin-error {
+            color: #ff6b6b; font-size: 0.78rem;
+            text-align: center; margin-top: 10px;
+            display: none;
+        }
+        .admin-modal-btns {
+            display: flex; gap: 10px; margin-top: 20px;
+        }
+        .btn-admin-cancel {
+            flex: 1; padding: 13px;
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            border-radius: 12px; color: rgba(255,255,255,0.4);
+            font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+            cursor: pointer; transition: all .2s;
+        }
+        .btn-admin-cancel:hover { border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.7); }
+        .btn-admin-enter {
+            flex: 2; padding: 13px;
+            background: linear-gradient(135deg, #f5c842, #e5a800);
+            border: none; border-radius: 12px;
+            color: #0a0a1a; font-family: 'Cinzel Decorative', serif;
+            font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: all .3s;
+            box-shadow: 0 4px 20px rgba(245,200,66,0.35);
+        }
+        .btn-admin-enter:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,200,66,0.5); }
+
+        /* Admin badge strip inside form */
+        .admin-badge {
+            display: none;
+            background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(245,200,66,0.05));
+            border: 1px solid rgba(245,200,66,0.35);
+            border-radius: 14px; padding: 12px 18px;
+            margin-bottom: 20px; text-align: center;
+        }
+        .admin-badge.visible { display: block; }
+        .admin-badge p { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:2px; color:var(--gold); }
+        .admin-badge small { font-size:0.65rem; color:rgba(255,255,255,0.4); letter-spacing:1px; }
+
+        /* Admin: fecha manual del sábado */
+        #adminSabadoWrap { display: none; }
+        #adminSabadoWrap.visible { display: block; }
     </style>
 </head>
 <body>
@@ -706,7 +813,7 @@
             <div class="poster-info-sep"></div>
             <div class="poster-info-item">
                 <span class="poster-info-label">Lugar</span>
-                <span class="poster-info-value">La cumbre</span>
+                <span class="poster-info-value">Por Confirmar</span>
             </div>
         </div>
 
@@ -750,6 +857,28 @@
     </div>
 </section>
 
+<!-- ── BOTÓN ADMIN FLOTANTE ── -->
+<button class="btn-admin-float" onclick="abrirAdminModal()">
+    <span class="lock-icon">🔐</span> Acceso Equipo Base
+</button>
+
+<!-- ── MODAL DE CONTRASEÑA ADMIN ── -->
+<div id="adminOverlay">
+    <div class="admin-modal">
+        <p class="admin-modal-title">⚙️ Acceso Equipo Base</p>
+        <p class="admin-modal-sub">Ingresa la contraseña para registrar por otro miembro</p>
+        <div class="field">
+            <label>🔑 Contraseña</label>
+            <input type="password" id="adminPwd" placeholder="••••••••••"
+                   onkeydown="if(event.key==='Enter') verificarAdmin()">
+        </div>
+        <p class="admin-error" id="adminError">❌ Contraseña incorrecta. Inténtalo de nuevo.</p>
+        <div class="admin-modal-btns">
+            <button class="btn-admin-cancel" onclick="cerrarAdminModal()">Cancelar</button>
+            <button class="btn-admin-enter"  onclick="verificarAdmin()">Entrar ✝</button>
+        </div>
+    </div>
+</div>
 
 <!-- ══════════════════════════════════════════════
      FORM SCREEN
@@ -768,7 +897,7 @@
     <div class="wrapper">
         <div class="hero">
             <div class="logo-wrap">
-                <img src="logo-voz-de-cristo (1).png"alt="Voz de Cristo" class="logo-img">
+                <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/wAARCAJkAxgDASIAAhEBAxEB/8QAHQABAAIDAQEBAQAAAAAAAAAAAAcIBQYJBAMBAv/EAGQQAAEDAwIDBQIGCQ0LCgUDBQEAAgMEBREGBwgSIRMxQVFhInEJFDJCgZEVI1JicoKSodEWFyQzNjdVdKKxsrPBGDhDU1Zjc4OUtNI1R1d2hIWTlcTTJTRUdaOkwuEmRMPU8P/EABwBAQABBQEBAAAAAAAAAAAAAAAGAgMEBQcBCP/EADwRAQABAwICBgcGBQUBAQEAAAABAgMEBREhMQYSQVGBsRNhcZGhwdEUIjJScvAWMzRC4QcjNVOSYsLx/9oADAMBAAIRAxEAPwCmSIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIg9Vpt9bdrpS2u200lVW1czYKeGMZdI9xAa0epJC6HbC8MWi9EWemrtV22j1JqR7Q+aSqjEtPTO7+SKN3snB+e4EkjI5R0Vevg+NHNvu71Vqapg7Sl09RmRjiMgVE2WR/yO1I9QFYzjT3XuO2m3tLRafqPi99vsr4KecfKp4WAGWRv33tMaD4c2e8IJjqbhpqysFvqK20W1pb0p5JY4gW93ySR0Xluej9F36n/+JaXsF0heOhnoIZmuH0tK5G1lVU1tXLV1lRNU1Ezi+WWV5e97j3kk9SfUrN6N1vq/R1W2q0vqS52mQHJbTVDmsd+Ez5Lh6EFB0J1rws7O6kje6CwzWGqdk9vaqgx4/wBW7mjx7mhVq3Z4QNc6ZiluGj6uPVdAzLjCxnY1jB/oySH/AIpyfuVuGzXGXUxyxWzdG3NmiOGi7W+LD2+ssI6HzJZjHg0q4Omb/ZdTWWC86fulLc7fUDMdRTSB7D5jp3EdxB6g96Dj/W0tTRVctHWU81NUwvLJYZWFj43A4LXNPUEeRXxXULfnYrR+7Fuklradtt1AxnLTXaBg7QYHRsg/wjPQ9R4ELnduztvqrbLU77FqehMTjl1NUx5dBVMz8uN3j6g4I8QEGnIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIi2bavSdTrrcWxaSpeYPuVYyJ72jJji+VI/8Vgc76EF++BnRh0rsVRXCoiDK3UEzrjISOoiIDYRny5Gh4/DKg74Sd1Wde6Ua9rviYtchiPgZDKef8wjV4bfSU1BQU9BRwthpqaJsMMbe5jGgBoHuAAVV/hJLEKnQWl9RtZl1BcpKRxHg2ePm6+mYB9fqgosiIgLdtpN0dY7YXz7J6Wuboo3kfGaKXL6apA8Hsz3+Thhw8CFpKIOn+wG++kt2reIKV4teoYmc1Lap5AX48XxO6doz1ABHiBkE7ruPofTO4OmJ9PaptsdbRye0x3dJA/wkjd3tcPMeBIOQSFyVtVwr7Tcqe5Wysnoq2meJIZ4JCx8bh3EEdQVfLhY4mqTW3xXR+u5oKLUpxHS1mAyG4HuAPgyU+Xc492DhqCrfENsfqTaO95nD7jp6peRRXRjMNPj2cgHyJPTudjI8QInXYfUtjtGpbFV2O/W+C4W2sj7Oenmblrx/OCDggjqCARghc6+KDh/u21VzkvNpEtw0jUy4gqe+SkJ7opv5g/uPoeiCDEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBVSREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMfCrtxX7j70UNkppvh7TGJLpVNHtQwdxDT3F5Ga0eWVabvbwx7a7X6l+J6h1u4W0t5nGK3OzG7qA1gPVoAJJ6Bc59gdFxbj7xVdhroBNFa2C7Vbb0DmMcezz5Okx9Cmp8Iq7Sk3P1bqq7WqGptlFVs+LU8w5aipczmDiPEAZAHm8+SjMxuwWZNq4iqJpo2mHy19q9Lr9ybhUbaXjX6p6iIi2riIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDatqdJVGvNy7FpGky2opo5p3Ad0MZ5pD9TC36FdOdxKOm03paj09bIxHT0kLaWCMDubGwBo/QFy08B/qz9A8TumrnUydlRSSGiq3E9GSNry7J8tQR7lOHwjL8Wt+kJdNTyf8AJbg/7KMjuj3kCqb7iBHoeg9VHF4R1OfS8BNiua3E9VMR3zwj5u1oiIvNHWREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMPBNoH9JOLGz0UkPaUlvkNxqm47hDETyA+TnBo9CpqhxDK7+OW8J2vtg4eKGiH/AOoVAcEWtP1M8dGm5gJMGktk8dOo3OPoAPoP8i6EfCTOdYbVaTjAiuEp/mxH+1RBHiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiA=" alt="Voz de Cristo" class="logo-img">
                 <div class="ring"></div>
                 <div class="ring2"></div>
             </div>
@@ -778,6 +907,12 @@
         <div class="card">
             <div id="formSection">
                 <div class="divider"><span>✦ Registro de Asistencia ✦</span></div>
+
+                <!-- ADMIN BADGE (visible en modo admin) -->
+                <div class="admin-badge" id="adminBadge">
+                    <p>⚙️ MODO EQUIPO BASE ACTIVO</p>
+                    <small>Puedes registrar por cualquier miembro del grupo</small>
+                </div>
 
                 <form id="asistenciaForm">
                     <!-- MES -->
@@ -791,7 +926,7 @@
                         <p style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:5px;padding-left:2px;">Solo puedes registrar el mes en curso.</p>
                     </div>
 
-                    <!-- SÁBADO -->
+                    <!-- SÁBADO (autodetectado) -->
                     <div class="field" id="wrapSabado">
                         <label>🗓️ Sábado de asistencia</label>
                         <div style="display:flex;align-items:center;gap:10px;background:rgba(245,200,66,.07);border:1.5px solid rgba(245,200,66,.4);border-radius:14px;padding:14px 18px;">
@@ -800,6 +935,15 @@
                         </div>
                         <input type="hidden" name="sabado" id="sabadoVal">
                         <p id="sabadoAviso" style="font-size:.72rem;color:rgba(255,200,66,.55);margin-top:5px;padding-left:2px;"></p>
+                    </div>
+
+                    <!-- ADMIN: SÁBADO MANUAL (solo visible en modo admin) -->
+                    <div class="field" id="adminSabadoWrap">
+                        <label>🗓️ Sábado a registrar (admin)</label>
+                        <select id="adminSabadoSel" onchange="aplicarSabadoAdmin(this.value)"
+                            style="width:100%;padding:14px 18px;background:rgba(245,200,66,.07);border:1.5px solid rgba(245,200,66,.5);border-radius:14px;color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;outline:none;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23f5c842\' stroke-width=\'2\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 16px center;cursor:pointer;">
+                        </select>
+                        <p style="font-size:.72rem;color:rgba(245,200,66,.5);margin-top:5px;padding-left:2px;">⚙️ Modo admin: elige el sábado correcto.</p>
                     </div>
 
                     <!-- NOMBRE -->
@@ -919,21 +1063,14 @@ function updateCountdown() {
     const now  = new Date();
     const diff = TARGET - now;
     if (diff <= 0) {
-        document.getElementById('cdDias').textContent  = '00';
-        document.getElementById('cdHoras').textContent = '00';
-        document.getElementById('cdMin').textContent   = '00';
-        document.getElementById('cdSeg').textContent   = '00';
+        ['cdDias','cdHoras','cdMin','cdSeg'].forEach(id => document.getElementById(id).textContent = '00');
         return;
     }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000)  / 60000);
-    const s = Math.floor((diff % 60000)    / 1000);
     const pad = n => String(n).padStart(2,'0');
-    document.getElementById('cdDias').textContent  = pad(d);
-    document.getElementById('cdHoras').textContent = pad(h);
-    document.getElementById('cdMin').textContent   = pad(m);
-    document.getElementById('cdSeg').textContent   = pad(s);
+    document.getElementById('cdDias').textContent  = pad(Math.floor(diff / 86400000));
+    document.getElementById('cdHoras').textContent = pad(Math.floor((diff % 86400000) / 3600000));
+    document.getElementById('cdMin').textContent   = pad(Math.floor((diff % 3600000)  / 60000));
+    document.getElementById('cdSeg').textContent   = pad(Math.floor((diff % 60000)    / 1000));
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
@@ -943,24 +1080,26 @@ setInterval(updateCountdown, 1000);
 // ══════════════════════════════════════════
 function mostrarFormulario() {
     const poster = document.getElementById('posterScreen');
-    const form   = document.getElementById('formScreen');
+    const frm    = document.getElementById('formScreen');
     poster.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
     poster.style.opacity    = '0';
     poster.style.transform  = 'scale(1.04)';
     setTimeout(() => {
         poster.style.display = 'none';
-        form.style.display   = 'block';
-        setTimeout(() => form.classList.add('visible'), 20);
+        frm.style.display    = 'block';
+        setTimeout(() => frm.classList.add('visible'), 20);
         window.scrollTo(0,0);
     }, 700);
 }
 
 function volverAlPoster() {
     const poster = document.getElementById('posterScreen');
-    const form   = document.getElementById('formScreen');
-    form.classList.remove('visible');
+    const frm    = document.getElementById('formScreen');
+    frm.classList.remove('visible');
+    // Si estaba en modo admin, salir
+    modoAdmin = false;
     setTimeout(() => {
-        form.style.display  = 'none';
+        frm.style.display    = 'none';
         poster.style.display = 'flex';
         poster.style.opacity = '0';
         poster.style.transform = 'scale(1.04)';
@@ -997,22 +1136,68 @@ for (let i = 0; i < 40; i++) {
 }
 
 // ══════════════════════════════════════════
-//  AUTODETECCIÓN DE MES Y SÁBADO
+//  MESES Y FECHAS
 // ══════════════════════════════════════════
-const NOMBRES_MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const NOMBRES_MESES        = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const NOMBRES_MESES_ES_MIN = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
 function calcularSabadoReunion() {
-    const hoy = new Date();
-    const dow = hoy.getDay();
-    const copia = new Date(hoy);
-    if (dow !== 6) {
-        const dias = (6 - dow + 7) % 7 || 7;
-        copia.setDate(hoy.getDate() + dias);
-    }
+    const hoy  = new Date();
+    const dow  = hoy.getDay();
+    const copia= new Date(hoy);
+    if (dow !== 6) { const d = (6 - dow + 7) % 7 || 7; copia.setDate(hoy.getDate() + d); }
     copia.setHours(0,0,0,0);
     return copia;
 }
+
+// Genera los 4 últimos sábados + el próximo para el selector admin
+function generarSabadosAdmin() {
+    const lista = [];
+    const base  = calcularSabadoReunion();
+    // incluir los 4 sábados anteriores y el actual/próximo
+    for (let i = 4; i >= 0; i--) {
+        const d = new Date(base);
+        d.setDate(base.getDate() - i * 7);
+        const dia    = d.getDate();
+        const mesIdx = d.getMonth();
+        const anio   = d.getFullYear();
+        const mesMin = NOMBRES_MESES_ES_MIN[mesIdx];
+        const mesM   = mesMin.charAt(0).toUpperCase() + mesMin.slice(1);
+        lista.push({ valor: `${dia} de ${mesM} ${anio}`, label: `${dia} de ${mesMin} ${anio}` });
+    }
+    return lista;
+}
+
+// Rellena el select admin de sábados
+function poblarSelectAdmin() {
+    const sel    = document.getElementById('adminSabadoSel');
+    const sabados= generarSabadosAdmin();
+    sel.innerHTML = '';
+    sabados.forEach((s, i) => {
+        const opt = document.createElement('option');
+        opt.value = s.valor;
+        opt.textContent = `📅 ${s.label}${i === sabados.length - 1 ? ' (próximo)' : ''}`;
+        if (i === sabados.length - 1) opt.selected = true; // default = el más reciente/próximo
+        sel.appendChild(opt);
+    });
+    // Aplicar el primer valor al campo oculto
+    aplicarSabadoAdmin(sel.value);
+}
+
+function aplicarSabadoAdmin(valor) {
+    document.getElementById('sabadoVal').value = valor;
+    // Actualizar mes según el sábado elegido
+    const parts = valor.split(' '); // "18 de Abril 2025"
+    const mesNombre = parts[2];
+    document.getElementById('mesVal').value = mesNombre;
+    document.getElementById('mesLabel').textContent  = `📅 ${mesNombre} ${parts[3] || ''}`;
+    document.getElementById('sabadoLabel').textContent = `🗓️ ${valor}`;
+}
+
+// ══════════════════════════════════════════
+//  AUTODETECCIÓN NORMAL (no admin)
+// ══════════════════════════════════════════
+let formBloqueado = false;
 
 (function setearFechasAutomaticas() {
     const sabado    = calcularSabadoReunion();
@@ -1022,33 +1207,103 @@ function calcularSabadoReunion() {
     const mesNombre = NOMBRES_MESES[mesIdx];
     const mesMin    = NOMBRES_MESES_ES_MIN[mesIdx];
     const mesConMay = mesMin.charAt(0).toUpperCase() + mesMin.slice(1);
-
     const valorSabado = `${dia} de ${mesConMay} ${anio}`;
-    const labelSabado = `Sábado ${dia} de ${mesMin}`;
 
-    document.getElementById('mesVal').value    = mesNombre;
-    document.getElementById('sabadoVal').value = valorSabado;
-    document.getElementById('mesLabel').textContent    = `📅 ${mesNombre} ${anio}`;
-    document.getElementById('sabadoLabel').textContent = `🗓️ ${labelSabado}`;
+    document.getElementById('mesVal').value             = mesNombre;
+    document.getElementById('sabadoVal').value          = valorSabado;
+    document.getElementById('mesLabel').textContent     = `📅 ${mesNombre} ${anio}`;
+    document.getElementById('sabadoLabel').textContent  = `🗓️ Sábado ${dia} de ${mesMin}`;
 
     const hoy = new Date();
     if (hoy.getDay() !== 6) {
         const faltan = (6 - hoy.getDay() + 7) % 7 || 7;
         document.getElementById('sabadoAviso').textContent =
             `ℹ️ Hoy no es sábado — registro para el próximo (faltan ${faltan} día${faltan!==1?'s':''}).`;
-        const form = document.getElementById('asistenciaForm');
-        const elementos = form.querySelectorAll('input, select, textarea, button');
-        elementos.forEach(el => {
-            el.disabled = true;
-            el.style.opacity = '0.4';
-            el.style.cursor  = 'not-allowed';
-        });
+        formBloqueado = true;
+        const frm = document.getElementById('asistenciaForm');
+        const elementos = frm.querySelectorAll('input, select, textarea, button');
+        elementos.forEach(el => { el.disabled = true; el.style.opacity='0.4'; el.style.cursor='not-allowed'; });
         const aviso = document.createElement('div');
+        aviso.id = 'avisoNOSabado';
         aviso.style.cssText = 'background:rgba(245,200,66,.08);border:1.5px solid rgba(245,200,66,.3);border-radius:16px;padding:18px 20px;margin-bottom:20px;text-align:center;';
         aviso.innerHTML = `<span style="font-size:2rem;">🔒</span><p style="color:rgba(245,200,66,.9);font-weight:800;margin:8px 0 4px;font-size:.95rem;">Registro solo disponible los sábados</p><p style="color:rgba(255,255,255,.5);font-size:.8rem;">Faltan ${faltan} día${faltan!==1?'s':''} para el próximo sábado</p>`;
-        form.insertBefore(aviso, form.firstChild);
+        frm.insertBefore(aviso, frm.firstChild);
     }
 })();
+
+// ══════════════════════════════════════════
+//  MODO ADMIN
+// ══════════════════════════════════════════
+let modoAdmin = false;
+const ADMIN_PASS = 'samuel1415';
+
+function abrirAdminModal() {
+    document.getElementById('adminOverlay').classList.add('open');
+    document.getElementById('adminPwd').value = '';
+    document.getElementById('adminError').style.display = 'none';
+    setTimeout(() => document.getElementById('adminPwd').focus(), 200);
+}
+
+function cerrarAdminModal() {
+    document.getElementById('adminOverlay').classList.remove('open');
+}
+
+function verificarAdmin() {
+    const pwd = document.getElementById('adminPwd').value;
+    if (pwd === ADMIN_PASS) {
+        cerrarAdminModal();
+        activarModoAdmin();
+    } else {
+        document.getElementById('adminError').style.display = 'block';
+        document.getElementById('adminPwd').value = '';
+        document.getElementById('adminPwd').focus();
+    }
+}
+
+function activarModoAdmin() {
+    modoAdmin = true;
+
+    // Mostrar pantalla de formulario si no está visible
+    const poster = document.getElementById('posterScreen');
+    const frm    = document.getElementById('formScreen');
+    if (poster.style.display !== 'none') {
+        poster.style.transition = 'opacity 0.5s ease';
+        poster.style.opacity    = '0';
+        setTimeout(() => {
+            poster.style.display = 'none';
+            frm.style.display    = 'block';
+            setTimeout(() => frm.classList.add('visible'), 20);
+            window.scrollTo(0,0);
+        }, 500);
+    }
+
+    // Mostrar badge admin
+    document.getElementById('adminBadge').classList.add('visible');
+
+    // Desbloquear el formulario si estaba bloqueado por no ser sábado
+    if (formBloqueado) {
+        const avisoEl = document.getElementById('avisoNOSabado');
+        if (avisoEl) avisoEl.remove();
+        const asistForm = document.getElementById('asistenciaForm');
+        asistForm.querySelectorAll('input, select, textarea, button').forEach(el => {
+            el.disabled = false;
+            el.style.opacity = '';
+            el.style.cursor  = '';
+        });
+    }
+
+    // Mostrar selector de sábado manual (admin)
+    poblarSelectAdmin();
+    document.getElementById('adminSabadoWrap').classList.add('visible');
+
+    // Ocultar el selector de sábado bloqueado normal visualmente
+    document.getElementById('wrapSabado').style.display = 'none';
+}
+
+// Cerrar modal al hacer clic fuera
+document.getElementById('adminOverlay').addEventListener('click', function(e) {
+    if (e.target === this) cerrarAdminModal();
+});
 
 // ══════════════════════════════════════════
 //  VISITANTE NUEVO
@@ -1085,20 +1340,20 @@ function checkNombreEnLista(select) {
 //  FORMULARIO — ANTI-DUPLICADO
 // ══════════════════════════════════════════
 const scriptURL = 'https://script.google.com/macros/s/AKfycbx2pXLdUlSdw4K1my9drSCAF6fhM1RnDOuldsDRHcdJyrzR5HvnYn-1cY2qYaaawBKC5Q/exec';
-const form = document.getElementById('asistenciaForm');
+const formEl = document.getElementById('asistenciaForm');
 
 function claveRegistro() {
     return 'registrado_' + document.getElementById('sabadoVal').value.replace(/\s/g,'_');
 }
-function yaRegistrado()  { try { return localStorage.getItem(claveRegistro()) === '1'; } catch(e) { return false; } }
-function marcarRegistrado() { try { localStorage.setItem(claveRegistro(), '1'); } catch(e) {} }
+function yaRegistrado()     { try { return !modoAdmin && localStorage.getItem(claveRegistro()) === '1'; } catch(e) { return false; } }
+function marcarRegistrado() { try { if (!modoAdmin) localStorage.setItem(claveRegistro(), '1'); } catch(e) {} }
 function borrarRegistro()   { try { localStorage.removeItem(claveRegistro()); } catch(e) {} }
 
 function corregirRegistro() {
     borrarRegistro();
     document.getElementById('successMsg').style.display  = 'none';
     document.getElementById('formSection').style.display = 'block';
-    form.reset();
+    formEl.reset();
     document.getElementById('seccionNuevoVisitante').style.display = 'none';
     const btn = document.getElementById('btnEnviar');
     btn.disabled    = false;
@@ -1116,7 +1371,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-form.addEventListener('submit', e => {
+formEl.addEventListener('submit', e => {
     e.preventDefault();
     const selNombre = document.getElementById('selNombre');
     const esNuevo   = selNombre.value === '__nuevo__';
@@ -1134,7 +1389,7 @@ form.addEventListener('submit', e => {
     btn.disabled    = true;
     btn.textContent = '⏳ Registrando...';
 
-    const formData = new FormData(form);
+    const formData = new FormData(formEl);
 
     if (esNuevo) {
         const nombre      = document.getElementById('visitanteNombre').value.trim();
@@ -1142,11 +1397,16 @@ form.addEventListener('submit', e => {
         const origenSelect= document.getElementById('visitanteOrigen').value;
         const origenOtro  = document.getElementById('visitanteOrigenOtro').value.trim();
         const origen      = origenSelect === 'Otro' ? `Otro: ${origenOtro}` : origenSelect;
-        formData.set('nombre', `${nombre} (NUEVO)`);
-        formData.set('visitante_nombre', nombre);
+        // Nombre en la hoja de asistencia (marcado como NUEVO)
+        formData.set('nombre',              `${nombre} (NUEVO)`);
+        // Campos extra para la hoja de visitantes
+        formData.set('visitante_nombre',    nombre);
         formData.set('visitante_fecha_nac', fecha);
-        formData.set('visitante_origen', origen);
+        formData.set('visitante_origen',    origen);
     }
+
+    // Si es admin, indicarlo para que el script no aplique bloqueo de duplicados
+    if (modoAdmin) formData.set('modo_admin', '1');
 
     const mesGuardado    = document.getElementById('mesVal').value;
     const sabadoGuardado = document.getElementById('sabadoVal').value;
@@ -1154,12 +1414,25 @@ form.addEventListener('submit', e => {
     fetch(scriptURL, { method: 'POST', body: formData })
         .then(() => {
             marcarRegistrado();
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('successMsg').style.display  = 'block';
-            const det = document.getElementById('successDetalle');
-            if (det) det.textContent = `📅 Registrado para: ${sabadoGuardado} (${mesGuardado})`;
-            form.reset();
-            document.getElementById('seccionNuevoVisitante').style.display = 'none';
+            if (modoAdmin) {
+                // En modo admin: mostrar éxito brevemente y volver a limpiar para registrar otro
+                const nombreReg = selNombre.value === '__nuevo__'
+                    ? document.getElementById('visitanteNombre').value.trim() + ' (NUEVO)'
+                    : selNombre.value;
+                alert(`✅ Registrado: ${nombreReg}\n📅 ${sabadoGuardado}`);
+                formEl.reset();
+                document.getElementById('selNombre').value = '';
+                document.getElementById('seccionNuevoVisitante').style.display = 'none';
+                btn.disabled    = false;
+                btn.textContent = '¡Presente! ✝️';
+            } else {
+                document.getElementById('formSection').style.display = 'none';
+                document.getElementById('successMsg').style.display  = 'block';
+                const det = document.getElementById('successDetalle');
+                if (det) det.textContent = `📅 Registrado para: ${sabadoGuardado} (${mesGuardado})`;
+                formEl.reset();
+                document.getElementById('seccionNuevoVisitante').style.display = 'none';
+            }
         })
         .catch(() => {
             alert('Hubo un error al conectar. Inténtalo de nuevo.');
