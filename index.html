@@ -350,52 +350,6 @@
             100%{ transform: scale(1.3) rotate(-5deg); }
         }
 
-        /* ═══════════════════════════════════════════
-           RETIRO CARD — nueva sección
-        ═══════════════════════════════════════════ */
-        .retiro-card {
-            background: linear-gradient(145deg, rgba(200,24,78,0.12), rgba(200,24,78,0.04));
-            border: 1.5px solid rgba(200,24,78,0.35);
-            border-radius: 20px; padding: 22px 18px; margin-bottom: 20px;
-            animation: fadeUp 0.5s ease both;
-        }
-        .retiro-label {
-            font-family: 'Cinzel', serif;
-            font-size: 0.78rem; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase;
-            color: #ff80aa; margin-bottom: 14px; display: block;
-        }
-        .retiro-label span { opacity: 0.7; }
-        .retiro-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .retiro-option { position: relative; }
-        .retiro-option input[type="radio"] { display: none; }
-        .retiro-option label {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 6px; padding: 16px 8px 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1.5px solid rgba(255,255,255,0.1);
-            border-radius: 16px; cursor: pointer;
-            transition: all 0.25s; text-transform: none; letter-spacing: 0;
-            color: rgba(255,255,255,0.55); font-size: 0.72rem; font-weight: 700;
-            text-align: center;
-        }
-        .retiro-option label .r-emoji { font-size: 1.8rem; line-height: 1; transition: transform 0.3s; }
-        .retiro-option label:hover { border-color: rgba(200,24,78,0.5); background: rgba(200,24,78,0.1); transform: translateY(-3px); }
-        .retiro-option label:hover .r-emoji { transform: scale(1.25); }
-        /* Sí → verde */
-        .retiro-option input[value="Sí"]:checked + label {
-            background: linear-gradient(135deg, rgba(21,128,61,0.35), rgba(21,128,61,0.15));
-            border-color: #4ade80; color: #bbf7d0;
-            box-shadow: 0 4px 20px rgba(74,222,128,0.2);
-        }
-        /* No → rojo */
-        .retiro-option input[value="No"]:checked + label {
-            background: linear-gradient(135deg, rgba(200,24,78,0.35), rgba(200,24,78,0.15));
-            border-color: #f472b6; color: #fce7f3;
-            box-shadow: 0 4px 20px rgba(200,24,78,0.2);
-        }
-
-        .retiro-option input[type="radio"]:checked + label .r-emoji { transform: scale(1.3); animation: bounce 0.4s ease; }
 
         .btn-submit {
             width: 100%; margin-top: 26px; padding: 18px;
@@ -506,9 +460,6 @@
             .mood-grid { gap: 7px; }
             .mood-option label { padding: 10px 4px 8px; font-size: 0.65rem; }
             .mood-option label .emoji { font-size: 1.7rem; }
-            .retiro-grid { gap: 8px; }
-            .retiro-option label { padding: 12px 6px 10px; font-size: 0.65rem; }
-            .retiro-option label .r-emoji { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -756,34 +707,6 @@
                         <textarea name="comentario" rows="3" placeholder="Un mensaje para el equipo... 💬"></textarea>
                     </div>
 
-                    <!-- ══════════════════════════════════════════
-                         RETIRO JUVENIL 2026 — NUEVA PREGUNTA
-                    ══════════════════════════════════════════ -->
-                    <div class="retiro-card">
-                        <span class="retiro-label">🎉 Retiro Juvenil 2026 <span>— "Fuego Vivo"</span></span>
-                        <p style="font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:14px;line-height:1.5;">
-                            18 de Julio · ¿Nos confirmas tu asistencia?
-                        </p>
-                        <div class="retiro-grid">
-                            <div class="retiro-option">
-                                <input type="radio" name="retiro" id="retiroSi" value="Sí">
-                                <label for="retiroSi">
-                                    <span class="r-emoji">✅</span>
-                                    ¡Sí voy!
-                                </label>
-                            </div>
-                            <div class="retiro-option">
-                                <input type="radio" name="retiro" id="retiroNo" value="No">
-                                <label for="retiroNo">
-                                    <span class="r-emoji">❌</span>
-                                    No puedo
-                                </label>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <!-- FIN RETIRO ── -->
 
                     <button type="submit" class="btn-submit" id="btnEnviar">¡Presente! ✝️</button>
                 </form>
@@ -808,7 +731,7 @@
 //  URL DEL APPS SCRIPT — actualiza esta URL
 //  cuando redespliegues la versión v5
 // ══════════════════════════════════════════
-const scriptURL = 'https://script.google.com/macros/s/AKfycbz9oPrzyqKSkr3CfLdeygxPSkicgkTzoePUZmZd2ieUC4NDeIvcSXvt7yL-tfzr1MyP/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx2pXLdUlSdw4K1my9drSCAF6fhM1RnDOuldsDRHcdJyrzR5HvnYn-1cY2qYaaawBKC5Q/exec';
 
 // ══════════════════════════════════════════
 //  ESTADO GLOBAL
